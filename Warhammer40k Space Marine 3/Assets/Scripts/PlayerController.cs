@@ -41,6 +41,27 @@ public class PlayerController : MonoBehaviour
         jumpAction  = playerInput.actions["Jump"];
     }
 
+    private void OnEnable()
+    {
+        shootAction.performed += _ => ShootGun();
+    }
+
+    private void OnDisable()
+    {
+        shootAction.performed -= _ => ShootGun();
+
+    }
+
+    private void ShootGun()
+    {
+
+        RaycastHit hit;
+        if(Physics.Raycast(cameraTransform.position,cameraTransform.forward,out hit, Mathf.Infinity))
+        {
+
+        }
+    }
+
     void Update()
     {
         groundedPlayer = controller.isGrounded;
