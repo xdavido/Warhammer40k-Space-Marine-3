@@ -2,6 +2,6 @@
 
 Third Unity Assets:
 -Old Ruins
--Church Ruins
 -Rocks
 -Guardian
+-Skybox
