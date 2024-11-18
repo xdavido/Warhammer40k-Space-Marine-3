@@ -5,3 +5,7 @@ Third Unity Assets:
 -Rocks
 -Guardian
 -Skybox
+
+Characters:
+-Spacemarine by Sanayork
+-Orc by Gabor Kis-Juhasz
