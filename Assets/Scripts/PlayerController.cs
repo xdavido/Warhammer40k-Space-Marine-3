@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +23,13 @@ public class PlayerController : MonoBehaviour
     private bool groundedPlayer;
     private Transform cameraTransform;
 
+    [SerializeField]
+    private GameObject screenPlayer =null;
+
+
+    [SerializeField]
+    private Transform camera = null;
+
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -30,15 +37,26 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
 
 
-    private void Start()
+    bool movementBlocked = false;
+    GameState gameState;
+
+    private void Awake()
     {
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
-        cameraTransform = Camera.main.transform;
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
         shootAction = playerInput.actions["Shoot"];
-        jumpAction  = playerInput.actions["Jump"];
+        jumpAction = playerInput.actions["Jump"];
+    }
+    private void Start()
+    {
+        
+        playerInput = GetComponent<PlayerInput>();
+        gameState = FindObjectOfType<GameState>();
+        cameraTransform = camera;
+
+
     }
 
     private void OnEnable()
@@ -64,6 +82,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        if (movementBlocked || gameState.isGamePaused) return;
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -88,7 +109,32 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
 
         
+       
+
         Quaternion rotation = Quaternion.Euler(0, cameraTransform.eulerAngles.y, 0);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        float angleDifference = Quaternion.Angle(transform.rotation, rotation);
+        float adaptiveSpeed = rotationSpeed * (angleDifference / 180f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotation, adaptiveSpeed * Time.deltaTime);
+    }
+
+
+    public void BlockMovement()
+    {
+        movementBlocked = true;
+        screenPlayer.SetActive(false);
+
+    }
+
+    void SetCameraPriority(GameObject player, int priority)
+    {
+        Cinemachine.CinemachineVirtualCamera virtualCamera = player.GetComponentInChildren<Cinemachine.CinemachineVirtualCamera>();
+        if (virtualCamera != null)
+        {
+            virtualCamera.Priority = priority;
+        }
+        else
+        {
+            Debug.LogWarning($"No se encontró una cámara virtual en el jugador {player.name}");
+        }
     }
 }
