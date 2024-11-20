@@ -1,9 +1,7 @@
 # Warhammer40k-Space-Marine-3
 Our project aims to develop an online multiplayer video game inspired by the Warhammer 40k universe, focusing on cooperative player versus environment (PVE) combat.
 
-The game will be a shooter where two players collaborate to face hordes of AI-controlled enemies, represented by orcs.
-
-We will apply networking principles and real-time data transmission, implementing client-server communication using the UDP protocol to deliver a dynamic and seamless experience where both players can interact with the environment and each other.
+We apply networking principles and real-time data transmission, implementing client-server communication using the UDP protocol to deliver a dynamic and seamless experience where both players can interact with the environment and each other.
 
 *Lore*: In a devastated sector on the edge of the Warp, lies the Emperor's Sword, a sacred artifact whose light is the only barrier separating this world from the entry of Chaos. These ancient ruins, scarred by endless battles, have been discovered by savage orc hordes, using vile energy portals to invade and claim the divine weapon.  
 
@@ -22,7 +20,7 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Orc AI Prefab(Run,Shoot,Die)
 - Heal Bars
 
-## Third Person 
+## Third Person Resources
 ### Unity Assets:
 - Old Ruins 
 - Rocks 
