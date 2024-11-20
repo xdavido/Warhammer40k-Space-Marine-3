@@ -42,14 +42,12 @@ namespace _MessageType
     }
     public class Shoot : Message
     {
-        public Shoot(Vector3 pos, float rot) : base(MessageType.SHOOT)
+        public Shoot(int hitPlayerID) : base(MessageType.SHOOT)
         {
-            this.pos = pos;
-            this.rot = rot;
+            this.hitPlayerID = hitPlayerID;
         }
 
-        public Vector3 pos;
-        public float rot;
+        public int hitPlayerID;
     }
 
     public class Settings : Message
@@ -105,7 +103,7 @@ namespace _MessageType
             switch (m.type)
             {
                 case MessageType.ACKNOWLEDGEMENTS:
-                    {
+                    {   
                         m = JsonUtility.FromJson<Acknowledgements>(json);
                         break;
                     }

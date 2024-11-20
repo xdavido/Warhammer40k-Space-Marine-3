@@ -48,7 +48,7 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
-
+        MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] += MessageReset;
@@ -63,7 +63,7 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] -= MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] -= MessageKill;
-
+        MessageManager.messageDistribute[MessageType.SHOOT] -= MessageShoot;
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] -= MessageReset;
@@ -104,6 +104,22 @@ public class GameState : MonoBehaviour
         EndGame("You Lose");
     }
 
+    void MessageShoot(Message message)
+    {
+        Shoot shootMessage = message as Shoot;
+
+        // Verificar si el ID del jugador impactado coincide con el jugador local
+        if (shootMessage.hitPlayerID == MessageManager.playerID)
+        {
+            Debug.Log("You've been hit!");
+            myPlayer.GetComponent<PlayerController>().TakeDmg();
+        }
+        else
+        {
+            Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
+        }
+    }
+
     void MessagePause(Message message)
     {
         //Pause or unpause
@@ -125,11 +141,16 @@ public class GameState : MonoBehaviour
                 if (MessageManager.playerID == 0)
                 {
                     myPlayer = t.gameObject.transform;
+                    t.SetPlayerId(0);
+                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(1);
                 }
                 else
                 {
                     otherPlayer = t.gameObject.transform;
                     t.BlockMovement();
+                    
+                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(1);
+
                 }
             }
             else if (t.gameObject.name == Player2_Name)
@@ -137,11 +158,15 @@ public class GameState : MonoBehaviour
                 if (MessageManager.playerID == 1)
                 {
                     myPlayer = t.gameObject.transform;
+                    t.SetPlayerId(1);
+                    
                 }
                 else
                 {
                     otherPlayer = t.gameObject.transform;
-                    t.BlockMovement();                 
+                    t.BlockMovement();
+                   
+                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(0);
                 }
             }
         }
