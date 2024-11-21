@@ -27,7 +27,7 @@ public class Client : MonoBehaviour
     bool startConnection;
 
     int playerID;
-
+  
     private void Start()
     {
         startGame = false;
@@ -172,7 +172,7 @@ public class Client : MonoBehaviour
         MessageManager.remote = remote;
     }
 
-    void WaitForStart() 
+    void WaitForStart()
     {
         Debug.Log("Waiting for the Server to Start...");
 
@@ -192,20 +192,21 @@ public class Client : MonoBehaviour
 
         string message = Encoding.ASCII.GetString(data, 0, recv);
 
-        //ChangeScene
         if (message.Contains("StartGame"))
         {
             startGame = true;
-
-            //Set player id (message = "0StartGame")
             playerID = (int)message[0] - 48;
         }
         else
         {
-            Debug.Log("Message recieved to start game is INCORRECT: " + message);
+            Debug.Log("Message received is INCORRECT: " + message);
             StopConnection();
         }
     }
+   
+
+
+
     void ChangeScene()
     {
         //Change the scene to loading scene     The same as this
@@ -214,6 +215,7 @@ public class Client : MonoBehaviour
         MessageManager.StartComunication();
 
     }
+
 
     string GetMyIp()
     {

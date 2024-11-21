@@ -73,6 +73,15 @@ namespace _MessageType
         public Color color;
     }
 
+    public class KillMessage : Message
+    {
+        public int PlayerID;
+
+        public KillMessage(int playerID) : base(MessageType.KILL)
+        {
+            this.PlayerID = playerID;
+        }
+    }
 
     public class Acknowledgements : Message
     {
@@ -105,6 +114,8 @@ namespace _MessageType
             return FromJson(Encoding.ASCII.GetString(data, 0, size));
         }
 
+
+
         //From Json string to Data
         public static Message FromJson(string json)
         {
@@ -131,6 +142,11 @@ namespace _MessageType
                 case MessageType.PING:
                     {
                         m = JsonUtility.FromJson<PingMessage>(json);
+                        break;
+                    }
+                case MessageType.KILL:
+                    {
+                        m = JsonUtility.FromJson<KillMessage>(json);
                         break;
                     }
             }

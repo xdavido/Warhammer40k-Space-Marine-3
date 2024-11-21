@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using _MessageType;
+using TMPro;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
@@ -81,6 +83,14 @@ public class PlayerController : MonoBehaviour
     private int playerId;                                         // Player unique ID
     public bool movementBlocked = false;
 
+    private int health = 4; // Vida inicial del jugador
+    [SerializeField] private GameObject Damage1;
+    [SerializeField] private GameObject Damage2;
+    [SerializeField] private GameObject Damage3;
+
+
+    [SerializeField] private GameObject FireReticle; // Objeto del FireReticle
+    private Color originalColor;
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -101,6 +111,24 @@ public class PlayerController : MonoBehaviour
         cameraTransform = cameras;
 
         StartCoroutine(PingRoutine());
+
+        if (FireReticle != null)
+        {
+            var image = FireReticle.GetComponent<UnityEngine.UI.Image>();
+            if (image != null)
+            {
+                originalColor = image.color; // Guardar el color original del componente Image
+            }
+            else
+            {
+                var renderer = FireReticle.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    originalColor = renderer.material.color; // Guardar el color original del material
+                }
+            }
+        }
+
     }
 
     private void OnEnable()
@@ -129,6 +157,8 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("Hit another player!");
 
+                StartCoroutine(ChangeReticleColor(Color.red, 1f)); // Cambiar a rojo por 1 segundo
+
                 MessageManager.SendMessage(new Shoot(otherPlayer.GetPlayerId()));
 
             }
@@ -140,6 +170,30 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("No hit detected.");
+        }
+    }
+    private IEnumerator ChangeReticleColor(Color newColor, float duration)
+    {
+       
+        if (FireReticle != null)
+        {
+            var image = FireReticle.GetComponent<UnityEngine.UI.Image>();
+            if (image != null)
+            {
+                image.color = newColor; // Cambiar el color
+                yield return new WaitForSeconds(duration);
+                image.color = originalColor; // Restaurar el color original
+            }
+            else
+            {
+                var renderer = FireReticle.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.material.color = newColor; // Cambiar el color
+                    yield return new WaitForSeconds(duration);
+                    renderer.material.color = originalColor; // Restaurar el color original
+                }
+            }
         }
     }
 
@@ -176,7 +230,7 @@ public class PlayerController : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime);
 
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))//cambiar a raycast
         {
             TakeDmg();
         }
@@ -255,10 +309,40 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDmg()
     {
-        Debug.Log($"{gameObject.name} has taken damage!");
-
         impulseSource.GenerateImpulse();
+        health -= 1;
+
+        switch (health)
+        {
+            case 4:
+                Debug.Log("Player has full health. No Canvas active.");
+                break;
+            case 3:
+                if (Damage1 != null) Damage1.SetActive(true);
+                Debug.Log("Player has been hit. Damage1 Canvas active.");
+                break;
+            case 2:
+                if (Damage2 != null) Damage2.SetActive(true);
+                Debug.Log("Player has moderate health. Damage2 Canvas active.");
+                break;
+            case 1:
+                if (Damage3 != null) Damage3.SetActive(true);
+                Debug.Log("Player is critically injured. Damage3 Canvas active.");
+                break;
+            case 0:
+                // Notificar al GameState sobre la muerte del jugador
+                MessageManager.SendMessage(new KillMessage(playerId));
+                Debug.Log($"{gameObject.name} has been killed!");
+                break;
+            default:
+                Debug.LogWarning("Invalid health value.");
+                break;
+        }
+
+        Debug.Log($"{gameObject.name} has taken 1 damage!");
     }
+
+
 
 
     private IEnumerator ShakeCamera()

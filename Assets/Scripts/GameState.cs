@@ -33,6 +33,8 @@ public class GameState : MonoBehaviour
     [SerializeField] TextMeshProUGUI textEndGame;
 
     [SerializeField] TextMeshProUGUI pingText;
+    [SerializeField] TextMeshProUGUI healthText;
+  
 
     bool setColorRestart = false;
     void Start()
@@ -127,9 +129,13 @@ public class GameState : MonoBehaviour
 
     void MessageKill(Message message)
     {
-        myPlayer.gameObject.SetActive(false);
-        EndGame("You Lose");
+        // Desactiva al jugador local eliminado
+        otherPlayer.gameObject.SetActive(false);
+
+       
     }
+
+ 
 
     void MessageShoot(Message message)
     {
@@ -139,13 +145,16 @@ public class GameState : MonoBehaviour
         if (shootMessage.hitPlayerID == MessageManager.playerID)
         {
             Debug.Log("You've been hit!");
+
             myPlayer.GetComponent<PlayerController>().TakeDmg();
+
         }
         else
         {
             Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
         }
     }
+   
 
     void MessagePause(Message message)
     {
@@ -248,6 +257,7 @@ public class GameState : MonoBehaviour
         //}
 
         StopCoroutine(SendMyState());
+
     }
 
     public void ResetGame()

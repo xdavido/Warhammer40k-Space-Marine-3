@@ -204,6 +204,20 @@ public class Server : MonoBehaviour
         text.text = GetMyIp();
     }
 
+    // Método para notificar el fin del juego a todos los jugadores
+    public void EndGame(int winnerID)
+    {
+        string message = winnerID == 0 ? "Player1Wins" : "Player2Wins";
+
+        // Enviar mensaje a ambos jugadores sobre el ganador
+        for (int i = 0; i < connectedPlayers; i++)
+        {
+            byte[] sendData = Encoding.ASCII.GetBytes(message);
+            socket.SendTo(sendData, sendData.Length, SocketFlags.None, remote[i]);
+        }
+
+       
+    }
 
     string GetMyIp()
     {
