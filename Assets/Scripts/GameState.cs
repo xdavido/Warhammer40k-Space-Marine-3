@@ -142,14 +142,14 @@ public class GameState : MonoBehaviour
                 {
                     myPlayer = t.gameObject.transform;
                     t.SetPlayerId(0);
-                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(1);
+                   
                 }
                 else
                 {
                     otherPlayer = t.gameObject.transform;
                     t.BlockMovement();
-                    
-                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(1);
+
+                    t.SetPlayerId(0);
 
                 }
             }
@@ -165,8 +165,8 @@ public class GameState : MonoBehaviour
                 {
                     otherPlayer = t.gameObject.transform;
                     t.BlockMovement();
-                   
-                    otherPlayer.GetComponent<PlayerController>().SetPlayerId(0);
+
+                    t.SetPlayerId(1);
                 }
             }
         }
