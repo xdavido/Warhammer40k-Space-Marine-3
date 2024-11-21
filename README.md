@@ -11,7 +11,7 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Environment
 - UI
 - Shooter PvP 1vs1
-- Player Prefab (Shoot)
+- Player Prefab (Dash,Damage,Shoot)
 
 ## Final Version (Exercise 4):
 - VFX (Heals,Projectiles,Dust,Portals,Blood Damage)
