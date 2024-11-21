@@ -6,13 +6,17 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class Client : MonoBehaviour
 {
+
+    [SerializeField] TMP_InputField inputIp;
+    [SerializeField] TMP_InputField inputPort;
     Thread messageReciever;
     Thread waitForStart;
 
-    string serverIP = "127.0.0.1";
+    string serverIP;
     int serverPort;
 
     Socket socket;
@@ -57,18 +61,18 @@ public class Client : MonoBehaviour
         myIp = myIp.Substring(0, i + 1);
 
         //Fill input
-        InputField ipInput = GameObject.Find("InputIP").GetComponent<InputField>();
-        ipInput.text = myIp;
-        ipInput.Select();
+        
+        inputIp.text = myIp;
+        inputIp.Select();
 
-        InputField portInput = GameObject.Find("InputPort").GetComponent<InputField>();
-        portInput.text = "9000";
+       
+        inputPort.text = "9000";
 
         yield return new WaitForEndOfFrame();
 
         //Needs to wait to set cursor
-        ipInput.caretPosition = ipInput.text.Length;
-        ipInput.ForceLabelUpdate();
+        inputIp.caretPosition = inputIp.text.Length;
+        inputIp.ForceLabelUpdate();
     }
 
     public void SelectPort()
@@ -77,21 +81,19 @@ public class Client : MonoBehaviour
     }
     IEnumerator SelectPortCo()
     {
-        InputField portInput = GameObject.Find("InputPort").GetComponent<InputField>();
-        portInput.Select();
+        
+        inputPort.Select();
 
         yield return new WaitForEndOfFrame();
 
-        portInput.caretPosition = portInput.text.Length;
-        portInput.ForceLabelUpdate();
+        inputPort.caretPosition = inputPort.text.Length;
+        inputPort.ForceLabelUpdate();
     }
 
     public void SetIP()
     {
-        InputField ipInput = GameObject.Find("InputIP").GetComponent<InputField>();
-        InputField portInput = GameObject.Find("InputPort").GetComponent<InputField>();
-        serverIP = ipInput.text.ToString();
-        serverPort = int.Parse(portInput.text.ToString());
+        serverIP = inputIp.text.ToString();
+        serverPort = int.Parse(inputPort.text.ToString());
 
         StartConnection();
     }
@@ -211,12 +213,6 @@ public class Client : MonoBehaviour
         MessageManager.playerID = playerID;
         MessageManager.StartComunication();
 
-        //ColorTank colorTank = FindAnyObjectByType<ColorTank>();
-        //DataTank dataTank = FindAnyObjectByType<DataTank>();
-
-        ////Send the info about the name and the color
-        //MessageManager.SendMessage(new MessageTypes.Settings(colorTank.GetName(), colorTank.GetColor()));
-        //dataTank.SaveDataTank(playerID, colorTank.GetName(), colorTank.GetColor());
     }
 
     string GetMyIp()

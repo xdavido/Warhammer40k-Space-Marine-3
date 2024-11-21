@@ -32,6 +32,8 @@ public class GameState : MonoBehaviour
     [SerializeField] GameObject panelEndGame;
     [SerializeField] TextMeshProUGUI textEndGame;
 
+    [SerializeField] TextMeshProUGUI pingText;
+
     bool setColorRestart = false;
     void Start()
     {
@@ -67,6 +69,7 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] -= MessageReset;
+        MessageManager.messageDistribute[MessageType.PONG] += HandlePong;
     }
 
     void Update()
@@ -88,6 +91,30 @@ public class GameState : MonoBehaviour
            // dataTank.SetSettingsTanks();
             setColorRestart = false;
         }
+    }
+
+    void HandlePong(Message message)
+    {
+        //// Buscar el tiempo en que se envió el Ping correspondiente
+        //PingMessage ping = message as PingMessage;
+
+        //float sentTime = MessageManager.Find(m => m.id == message.id).time;
+        //float rtt = Time.time - sentTime; // Tiempo total de ida y vuelta
+        //float lag = rtt / 2; // Dividir por 2 para obtener el lag estimado
+
+        //if (ping != null)
+        //{
+        //    float sentTime = ping.time;
+        //    float rtt = Time.time - sentTime; // Tiempo de ida y vuelta
+        //    float lag = rtt / 2; // Dividir por 2 para estimar el lag
+
+        //    pingText.text = "Ip: + ";
+        //    Debug.Log($"RTT: {rtt * 1000} ms, Lag: {lag * 1000} ms");
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("No se encontró un mensaje Ping correspondiente.");
+        //}
     }
 
     void MessagePosition(Message message)

@@ -16,6 +16,8 @@ namespace _MessageType
         UNPAUSE,
         RESET,
         SETTINGS,
+        PING,
+        PONG,
 
         _MESSAGE_TYPE_COUNT
 
@@ -27,6 +29,15 @@ namespace _MessageType
         public float time;
         public int playerID;
         public MessageType type;
+    }
+
+    public class PingMessage : Message
+    {
+        public float timestamp;
+        public PingMessage(float time) : base(MessageType.PING) {
+
+            this.timestamp = time;
+        }
     }
 
     public class Position : Message
@@ -115,6 +126,11 @@ namespace _MessageType
                 case MessageType.SHOOT:
                     {
                         m = JsonUtility.FromJson<Shoot>(json);
+                        break;
+                    }
+                case MessageType.PING:
+                    {
+                        m = JsonUtility.FromJson<PingMessage>(json);
                         break;
                     }
             }

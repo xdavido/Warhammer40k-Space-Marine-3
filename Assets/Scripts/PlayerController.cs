@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         gameState = FindObjectOfType<GameState>();
         cameraTransform = cameras;
 
-
+        StartCoroutine(PingRoutine());
     }
 
     private void OnEnable()
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Hit another player!");
 
                 MessageManager.SendMessage(new Shoot(otherPlayer.GetPlayerId()));
-               
+
             }
             else
             {
@@ -332,4 +332,18 @@ public class PlayerController : MonoBehaviour
     {
         canDash = true; // Ya podemos hacer otro dash después del cooldown
     }
+
+    IEnumerator PingRoutine()
+    {
+        while (true)
+        {
+            // Crear un mensaje de tipo Ping con el timestamp actual
+
+
+            MessageManager.SendMessage(new PingMessage(Time.time));
+
+            yield return new WaitForSeconds(1.0f); // Intervalo entre pings
+        }
+    }
+
 }

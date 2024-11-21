@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using _MessageType;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,8 @@ public class Server : MonoBehaviour
         Port.GetComponent<TextMeshProUGUI>().text = "Port: " + port.ToString();
 
         IP.GetComponent<TextMeshProUGUI>().text = "Ip: " + GetMyIp();
+
+        MessageManager.messageDistribute[MessageType.PING] += HandlePing;
     }
 
     void ServerSetup()
@@ -181,16 +184,18 @@ public class Server : MonoBehaviour
         }
     }
 
-    void ScreenServer()
+    void HandlePing(Message message)
     {
-        //GameObject.Find("Create").SetActive(false);
-        //GameObject.Find("TankB (2)").SetActive(false);
-        //GameObject.Find("TB").SetActive(false);
-        //GameObject.Find("TankV (2)").SetActive(false);
-        //GameObject.Find("Title1").SetActive(false);
-        //GameObject.Find("Title2").SetActive(false);
+        PingMessage ping = message as PingMessage;
 
-        //GameObject.Find("GameStarted").GetComponent<TMP_Text>().text = "The game has started";
+        // Crear y enviar un mensaje Pong de respuesta
+        Message pong = new Message(MessageType.PONG)
+        {
+            id = ping.id,         // Mantener el mismo ID del Ping para que el cliente pueda asociarlo
+            playerID = ping.playerID
+        };
+
+        MessageManager.SendMessage(pong);
     }
 
     //Screen
