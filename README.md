@@ -6,7 +6,10 @@ We apply networking principles and real-time data transmission, implementing cli
 *Lore*: _In a devastated sector on the edge of the Warp, lies the Emperor's Sword, a sacred artifact whose light is the only barrier separating this world from the entry of Chaos. These ancient ruins, scarred by endless battles, have been discovered by savage orc hordes, using vile energy portals to invade and claim the divine weapon._  
 
 _As a defender of the Imperium, your mission is clear: protect the Sword at all costs. With your skills and life on the line, you must face relentless waves of enemies, seal the portals, and ensure the Emperor's power does not fall into profane hands. The survival of this sector, and perhaps the entire galaxy, depends on your courage and determination._
-
+### Autors:
+- David Ruiz Luengo
+- Rafael Esquius Pérez
+- Xiao Shan Costajussa
 ## (Exercise 3): ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
 - Environment
 - UI
