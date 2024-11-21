@@ -28,26 +28,18 @@ public class PlayersData : MonoBehaviour
     {
         Settings s = m as Settings;
 
-        SaveDataTank(s.playerID, s.tankName, s.color);
-        SetSettingsTanks();
+        SaveData(s.playerID, s.tankName);
+        SetSettings();
     }
 
-    public void SaveDataTank(int id, string name, Color color)
+    public void SaveData(int id, string name)
     {
         names[id] = name;
    
     }
 
-    public void SetSettingsTanks()
+    public void SetSettings()
     {
-        //for (int i = 0; i < GameState.tanks.Length; i++)
-        //{
-        //    ColorTank tankSettings = GameState.tanks[i].GetComponentInChildren<ColorTank>();
 
-        //    if (names[i] == "" || names[i] == null) tankSettings.SetName("Player " + (i + 1));
-        //    else tankSettings.SetName(names[i]);
-
-        //    tankSettings.SetColorInGame(colors[i]);
-        //}
     }
 }

@@ -31,7 +31,7 @@ public class Client : MonoBehaviour
         messageReciever = new Thread(ConnectToServer);
         waitForStart = new Thread(WaitForStart);
 
-       // StartCoroutine(FillInputField());
+       StartCoroutine(FillInputField());
     }
 
     private void Update()
@@ -54,7 +54,7 @@ public class Client : MonoBehaviour
         //Get IP without last digits
         string myIp = GetMyIp();
         int i = myIp.LastIndexOf('.');
-       // myIp = myIp.Substring(0, i + 1);
+        myIp = myIp.Substring(0, i + 1);
 
         //Fill input
         InputField ipInput = GameObject.Find("InputIP").GetComponent<InputField>();
@@ -88,10 +88,10 @@ public class Client : MonoBehaviour
 
     public void SetIP()
     {
-        //InputField ipInput = GameObject.Find("InputIP").GetComponent<InputField>();
-        //InputField portInput = GameObject.Find("InputPort").GetComponent<InputField>();
-        serverIP = GetMyIp();
-        serverPort = 9000;
+        InputField ipInput = GameObject.Find("InputIP").GetComponent<InputField>();
+        InputField portInput = GameObject.Find("InputPort").GetComponent<InputField>();
+        serverIP = ipInput.text.ToString();
+        serverPort = int.Parse(portInput.text.ToString());
 
         StartConnection();
     }
