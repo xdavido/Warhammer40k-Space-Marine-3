@@ -22,6 +22,7 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - Space Marine Player Prefab (Shoot,Dash,Heals,Reload)
 - Orc AI Prefab(Run,Shoot,Die)
 - Heal Bars
+- Music & SFX
 
 ## Third Person Resources
 ### Unity Assets:
