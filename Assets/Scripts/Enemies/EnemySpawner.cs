@@ -6,8 +6,8 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] int enemiesPerWave = 5;
-    [SerializeField] float spanInterval = 1f;
-    private bool isActive = false;
+    [SerializeField] float spanInterval = 10f;
+    private bool isActive = true;
     private int currentWave = 0;
     // Start is called before the first frame update
     void Start()

@@ -13,7 +13,7 @@ public class EnemiesIA : MonoBehaviour
     [SerializeField] float attackCoolDown = 2f;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] Transform barret;
-    [SerializeField] Transform nexo;
+    Transform nexo;
 
 
     GameObject[] players;
@@ -25,6 +25,7 @@ public class EnemiesIA : MonoBehaviour
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
+        nexo = GameObject.FindGameObjectWithTag("Nexo").transform;
         agent = GetComponent<NavMeshAgent>();
         currentState = State.Patrol;
 
@@ -48,9 +49,12 @@ public class EnemiesIA : MonoBehaviour
 
     void Patrol()
     {
-        agent.destination = nexo.position;
+        target = FindNearestPlayerInRange(visionRange);
+        agent.destination = target.position;
+        
 
-        if(Vector3.Distance(nexo.position,transform.position) < visionRange)
+        // Si encuentra un jugador, cambia a Chasing.
+        if (target != null)
         {
             currentState = State.Chasing;
         }
@@ -81,15 +85,34 @@ public class EnemiesIA : MonoBehaviour
             lastAttackTiem = Time.time;
         }
 
-        if (Vector3.Distance(nexo.position, transform.position) < attackRange)
+        if (Vector3.Distance(target.position, transform.position) > attackRange)
         {
-            currentState = State.Chasing;
+            currentState = State.Patrol;
         }
     }
 
     void Shoot()
     {
         GameObject projectile = Instantiate(projectilePrefab, barret.position, Quaternion.identity);
+    }
+
+
+    Transform FindNearestPlayerInRange(float range)
+    {
+        Transform nearestPlayer = nexo;
+        float nearestDistance = Mathf.Infinity;
+
+        foreach (GameObject player in players)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+            if (distanceToPlayer < range && distanceToPlayer < nearestDistance)
+            {
+                nearestDistance = distanceToPlayer;
+                nearestPlayer = player.transform;
+            }
+        }
+
+        return nearestPlayer;
     }
 
 }
