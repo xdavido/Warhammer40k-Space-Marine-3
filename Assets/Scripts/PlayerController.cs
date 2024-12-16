@@ -90,6 +90,9 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] private GameObject FireReticle; // Objeto del FireReticle
+    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform barrelTransform;
+    [SerializeField] private Transform bulletParent;
     private Color originalColor;
     private void Awake()
     {
@@ -144,12 +147,16 @@ public class PlayerController : MonoBehaviour
 
     private void ShootGun()
     {
-
+        if (movementBlocked || gameState.isGamePaused) return;
         RaycastHit hit;
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
+        bulletController bulletControll = bullet.GetComponent<bulletController>();
         // Realiza el raycast desde la cámara hacia adelante
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+            bulletControll.target = hit.point;
+            bulletControll.hit = true;
 
             // Verifica si el objeto golpeado es un jugador
             PlayerController otherPlayer = hit.collider.GetComponent<PlayerController>();
@@ -169,6 +176,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            bulletControll.hit = false;
             Debug.Log("No hit detected.");
         }
     }
