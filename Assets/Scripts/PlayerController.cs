@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.0f;            // Jump height
     [SerializeField] private float gravityValue = -9.81f;        // Gravity applied to the player
     [SerializeField] private float rotationSpeed = 5f;           // Player rotation speed
+    private Vector2 input = Vector2.zero;
 
     // ===========================================================
     // Dash Settings
@@ -222,10 +223,13 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
+        Vector2 rawInput = moveAction.ReadValue<Vector2>();
         // Obtener la entrada del jugador
-        Vector2 input = moveAction.ReadValue<Vector2>();
+        float smoothSpeed = 10f; // Ajusta la velocidad del suavizado
+        input.x = Mathf.Lerp(input.x, rawInput.x, Time.deltaTime * smoothSpeed);
+        input.y = Mathf.Lerp(input.y, rawInput.y, Time.deltaTime * smoothSpeed);
         Vector3 move = new Vector3(input.x, 0, input.y);
-
+        Debug.Log("Move" + move);
         // Normalizar para mantener la coherencia en los valores de Blend Tree
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0;
