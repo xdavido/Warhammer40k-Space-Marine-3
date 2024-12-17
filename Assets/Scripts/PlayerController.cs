@@ -94,8 +94,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform barrelTransform;
     [SerializeField] private Transform bulletParent;
     private Color originalColor;
+
+    // animations
+    public Animator animator;
+
+
     private void Awake()
     {
+        // animations
+        animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
@@ -207,7 +214,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         if (movementBlocked || gameState.isGamePaused) return;
 
         groundedPlayer = IsGrounded();
@@ -216,51 +222,22 @@ public class PlayerController : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
-        // Obtiene la entrada del jugador (movimiento)
+        // Obtener la entrada del jugador
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 move = new Vector3(input.x, 0, input.y);
 
-        // Hace el movimiento en relación a la cámara
+        // Normalizar para mantener la coherencia en los valores de Blend Tree
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0;
 
-
+        // Mover al jugador
         controller.Move(move * Time.deltaTime * playerSpeed);
 
-        // Control de salto
-        if (jumpAction.triggered && groundedPlayer)
-        {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
-        }
+        // Asignar valores al Animator para el Blend Tree
+        animator.SetFloat("Horizontal", input.x);
+        animator.SetFloat("Vertical", input.y);
 
-        // Aplica gravedad
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
-
-
-        if (Input.GetKeyDown(KeyCode.Space))//cambiar a raycast
-        {
-            TakeDmg();
-        }
-
-
-        if (dashAction.triggered && canDash)
-        {
-            StartDash(move);
-        }
-
-        if (isDashing)
-        {
-            HandleDash();
-        }
-
-
-        //float angleDifference = Quaternion.Angle(transform.rotation, rotation);
-        //float adaptiveSpeed = rotationSpeed * (angleDifference / 180f);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, rotation, adaptiveSpeed * Time.deltaTime);
-
-
-        // **Alineación del jugador con la cámara**
+        // Rotación del jugador hacia la cámara
         AlignPlayerWithCamera();
     }
 
