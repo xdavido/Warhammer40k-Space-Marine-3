@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float playerSpeed = 2.0f;           // Player movement speed
-    [SerializeField] private float jumpHeight = 1.0f;            // Jump height
     [SerializeField] private float gravityValue = -9.81f;        // Gravity applied to the player
     [SerializeField] private float rotationSpeed = 5f;           // Player rotation speed
     private Vector2 input = Vector2.zero;
@@ -94,6 +93,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform barrelTransform;
     [SerializeField] private Transform bulletParent;
+    BulletManager bulletManager;
     private Color originalColor;
 
     // animations
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        
+        bulletManager = FindObjectOfType<BulletManager>();
         playerInput = GetComponent<PlayerInput>();
         gameState = FindObjectOfType<GameState>();
         cameraTransform = cameras;
@@ -153,11 +153,48 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+    public void Shoot()
+    {
+        if (movementBlocked || gameState.isGamePaused) return;
+        RaycastHit hit;
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
+        MessageManager.SendMessage(new Shoot(GetPlayerId()));
+        bulletController bulletControll = bullet.GetComponent<bulletController>();
+        // Realiza el raycast desde la cámara hacia adelante
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
+        {
+            Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+            bulletControll.target = hit.point;
+            bulletControll.hit = true;
+            bulletControll.SetPlayerId(playerId);
+
+            // Verifica si el objeto golpeado es un jugador
+            PlayerController otherPlayer = hit.collider.GetComponent<PlayerController>();
+            if (otherPlayer != null && otherPlayer != this) // Evita detectar al propio jugador
+            {
+                Debug.Log("Hit another player!");
+                
+                StartCoroutine(ChangeReticleColor(Color.red, 1f)); // Cambiar a rojo por 1 segundo
+
+            }
+            else
+            {
+                Debug.Log("Hit something else, but not a player.");
+            }
+        }
+        else
+        {
+            bulletControll.hit = false;
+            Debug.Log("No hit detected.");
+        }
+    }
     private void ShootGun()
     {
         if (movementBlocked || gameState.isGamePaused) return;
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
+        MessageManager.SendMessage(new Shoot(GetPlayerId()));
         bulletController bulletControll = bullet.GetComponent<bulletController>();
         // Realiza el raycast desde la cámara hacia adelante
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
@@ -171,10 +208,8 @@ public class PlayerController : MonoBehaviour
             if (otherPlayer != null && otherPlayer != this) // Evita detectar al propio jugador
             {
                 Debug.Log("Hit another player!");
-
+                bulletControll.SetPlayerId(playerId);
                 StartCoroutine(ChangeReticleColor(Color.red, 1f)); // Cambiar a rojo por 1 segundo
-
-                MessageManager.SendMessage(new Shoot(otherPlayer.GetPlayerId()));
 
             }
             else

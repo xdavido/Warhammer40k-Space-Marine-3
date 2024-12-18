@@ -52,7 +52,8 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
-        MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
+        MessageManager.messageDistribute[MessageType.HITPLAYER] += MessageHitPlayer;
+        MessageManager.messageDistribute[MessageType.SHOOT] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] += MessageReset;
@@ -67,7 +68,7 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] -= MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] -= MessageKill;
-        MessageManager.messageDistribute[MessageType.SHOOT] -= MessageShoot;
+        MessageManager.messageDistribute[MessageType.HITPLAYER] -= MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] -= MessageReset;
@@ -137,9 +138,9 @@ public class GameState : MonoBehaviour
 
  
 
-    void MessageShoot(Message message)
+    void MessageHitPlayer(Message message)
     {
-        Shoot shootMessage = message as Shoot;
+        HitPlayer shootMessage = message as HitPlayer;
 
         // Verificar si el ID del jugador impactado coincide con el jugador local
         if (shootMessage.hitPlayerID == MessageManager.playerID)
@@ -154,7 +155,24 @@ public class GameState : MonoBehaviour
             Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
         }
     }
-   
+
+    void MessageShoot(Message message)
+    {
+        Shoot shootMessage = message as Shoot;
+
+        // Verificar si el ID del jugador impactado coincide con el jugador local
+        if (shootMessage.playerID != MessageManager.playerID)
+        {
+            Debug.Log("You've been hit!");
+
+            myPlayer.GetComponent<PlayerController>().Shoot();
+
+        }
+        else
+        {
+            Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
+        }
+    }
 
     void MessagePause(Message message)
     {

@@ -11,6 +11,7 @@ namespace _MessageType
         POSITION,
         ACKNOWLEDGEMENTS,
         SHOOT,
+        HITPLAYER,
         KILL,
         PAUSE,
         UNPAUSE,
@@ -51,9 +52,19 @@ namespace _MessageType
         public Vector3 pos;
         public float rot;
     }
+
     public class Shoot : Message
     {
-        public Shoot(int hitPlayerID) : base(MessageType.SHOOT)
+        public Shoot(int playerID) : base(MessageType.SHOOT)
+        {
+            this.playerID = playerID;
+        }
+
+        public int hitPlayerID;
+    }
+    public class HitPlayer : Message
+    {
+        public HitPlayer(int hitPlayerID) : base(MessageType.HITPLAYER)
         {
             this.hitPlayerID = hitPlayerID;
         }
@@ -137,6 +148,11 @@ namespace _MessageType
                 case MessageType.SHOOT:
                     {
                         m = JsonUtility.FromJson<Shoot>(json);
+                        break;
+                    }
+                case MessageType.HITPLAYER:
+                    {
+                        m = JsonUtility.FromJson<HitPlayer>(json);
                         break;
                     }
                 case MessageType.PING:

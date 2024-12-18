@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemiesIA : MonoBehaviour
 {
-    public enum State { Patrol, Chasing, Attack }
+    public enum State { Patrol, Chasing, Attack, Dead }
     public State currentState = State.Patrol;
 
     [SerializeField] float attackRange = 10f;
@@ -45,6 +45,9 @@ public class EnemiesIA : MonoBehaviour
                 break;
             case State.Attack:
                 Attack();
+                break;
+            case State.Dead:
+                Die();
                 break;
         }
     }

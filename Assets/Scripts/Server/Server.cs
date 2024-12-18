@@ -18,6 +18,8 @@ public class Server : MonoBehaviour
     Thread waitingClientThread;
     [SerializeField] GameObject Port;
     [SerializeField] GameObject IP;
+    [SerializeField] GameObject Port2;
+    [SerializeField] GameObject IP2;
     Socket socket;
     EndPoint[] remote;
 
@@ -37,6 +39,10 @@ public class Server : MonoBehaviour
         Port.GetComponent<TextMeshProUGUI>().text = "Port: " + port.ToString();
 
         IP.GetComponent<TextMeshProUGUI>().text = "Ip: " + GetMyIp();
+
+        Port2.GetComponent<TextMeshProUGUI>().text = "Port: " + port.ToString();
+
+        IP2.GetComponent<TextMeshProUGUI>().text = "Ip: " + GetMyIp();
 
         MessageManager.messageDistribute[MessageType.PING] += HandlePing;
     }
