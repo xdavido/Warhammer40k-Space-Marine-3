@@ -18,8 +18,7 @@ public class Server : MonoBehaviour
     Thread waitingClientThread;
     [SerializeField] GameObject Port;
     [SerializeField] GameObject IP;
-    [SerializeField] GameObject Port2;
-    [SerializeField] GameObject IP2;
+
     Socket socket;
     EndPoint[] remote;
 
@@ -40,9 +39,6 @@ public class Server : MonoBehaviour
 
         IP.GetComponent<TextMeshProUGUI>().text = "Ip: " + GetMyIp();
 
-        Port2.GetComponent<TextMeshProUGUI>().text = "Port: " + port.ToString();
-
-        IP2.GetComponent<TextMeshProUGUI>().text = "Ip: " + GetMyIp();
 
         MessageManager.messageDistribute[MessageType.PING] += HandlePing;
     }
@@ -129,11 +125,11 @@ public class Server : MonoBehaviour
             Debug.Log("Connected Player " + connectedPlayers);
 
             // If max players are connected, start the game
-            if (connectedPlayers == MAX_PLAYERS)
-            {
-                Debug.Log("All players connected. Starting game...");
-                StartPlaying(); // Notify all players to start the game
-            }
+            //if (connectedPlayers == MAX_PLAYERS)
+            //{
+            //    Debug.Log("All players connected. Starting game...");
+            //    StartPlaying(); // Notify all players to start the game
+            //}
         }
     }
 
