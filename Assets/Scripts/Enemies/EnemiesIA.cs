@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class EnemiesIA : MonoBehaviour
 {
-    public enum State { Patrol, Chasing, Attack}
+    public enum State { Patrol, Chasing, Attack }
     public State currentState = State.Patrol;
 
     [SerializeField] float attackRange = 10f;
@@ -13,26 +13,28 @@ public class EnemiesIA : MonoBehaviour
     [SerializeField] float attackCoolDown = 2f;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] Transform barret;
-    Transform nexo;
 
-
-    GameObject[] players;
-    NavMeshAgent agent;
-    float lastAttackTiem = 0f;
-
+    private Animator animator; // Referencia al Animator
+    private Transform nexo;
+    private GameObject[] players;
+    private NavMeshAgent agent;
+    private float lastAttackTime = 0f;
     private Transform target = null;
+    private bool isDead = false;
 
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
         nexo = GameObject.FindGameObjectWithTag("Nexo").transform;
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>(); // Inicializar el Animator
         currentState = State.Patrol;
-
     }
 
     private void Update()
     {
+        if (isDead) return; // No hacer nada si está muerto
+
         switch (currentState)
         {
             case State.Patrol:
@@ -51,9 +53,10 @@ public class EnemiesIA : MonoBehaviour
     {
         target = FindNearestPlayerInRange(visionRange);
         agent.destination = target.position;
-        
 
-        // Si encuentra un jugador, cambia a Chasing.
+        animator.SetBool("isWalking", true); // Activar animación de caminar
+        animator.SetBool("isShooting", false);
+
         if (target != null)
         {
             currentState = State.Chasing;
@@ -68,8 +71,7 @@ public class EnemiesIA : MonoBehaviour
         {
             currentState = State.Attack;
         }
-
-        if (Vector3.Distance(nexo.position, transform.position) > visionRange)
+        else if (Vector3.Distance(nexo.position, transform.position) > visionRange)
         {
             currentState = State.Patrol;
         }
@@ -78,24 +80,35 @@ public class EnemiesIA : MonoBehaviour
     void Attack()
     {
         agent.isStopped = true;
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isShooting", true); // Activar animación de disparo
 
-        if(Time.time >lastAttackTiem + attackCoolDown)
+        if (Time.time > lastAttackTime + attackCoolDown)
         {
             Shoot();
-            lastAttackTiem = Time.time;
+            lastAttackTime = Time.time;
         }
 
         if (Vector3.Distance(target.position, transform.position) > attackRange)
         {
             currentState = State.Patrol;
+            agent.isStopped = false;
         }
     }
 
     void Shoot()
     {
-        GameObject projectile = Instantiate(projectilePrefab, barret.position, Quaternion.identity);
+        Instantiate(projectilePrefab, barret.position, Quaternion.identity);
     }
 
+    public void Die()
+    {
+        isDead = true;
+        animator.SetBool("isDead", true); // Activar animación de muerte
+        agent.isStopped = true;
+        // Opcional: Destruir el objeto después de un tiempo
+        Destroy(gameObject, 3f);
+    }
 
     Transform FindNearestPlayerInRange(float range)
     {
@@ -114,5 +127,4 @@ public class EnemiesIA : MonoBehaviour
 
         return nearestPlayer;
     }
-
 }

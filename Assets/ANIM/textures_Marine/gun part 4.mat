@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: helmet
+  m_Name: gun part 4
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,11 +29,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 5128e03ef4644a74893b52fabb554d14, type: 3}
+        m_Texture: {fileID: 2800000, guid: e598fae98e06a11459921dec0e569d01, type: 3}
         m_Scale: {x: 1, y: -1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: c69ac470971f7594eb4c559e32d004a6, type: 3}
+        m_Texture: {fileID: 2800000, guid: d08a3ea2dc0d05f4ab0b7b6e86956e79, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -49,15 +49,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: e839e3f30fbcc064995e7c21d03600ba, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7e98163ad2630af469ebc978d5c05b10, type: 3}
         m_Scale: {x: 1, y: -1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5128e03ef4644a74893b52fabb554d14, type: 3}
+        m_Texture: {fileID: 2800000, guid: e598fae98e06a11459921dec0e569d01, type: 3}
         m_Scale: {x: 1, y: -1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 4eca0d887187c3241b267e650a02e712, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7fa11854452433f4da688ef185d7b4bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -100,7 +100,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _GlossMapScale: 0.566
+    - _GlossMapScale: 0.521
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
@@ -109,7 +109,7 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.566
+    - _Smoothness: 0.521
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -121,10 +121,10 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 5.961629, g: 5.961629, b: 5.961629, a: 1}
+    - _EmissionColor: {r: 3.482202, g: 3.482202, b: 3.482202, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &1323249734172224864
+--- !u!114 &2656885891213775890
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
