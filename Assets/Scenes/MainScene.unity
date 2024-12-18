@@ -2894,7 +2894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &784776561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7182,9 +7182,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2857097079408374987, guid: 4834d20031227224188d3dadd9b03911, type: 3}
     - target: {fileID: 5099157473437020263, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
+      propertyPath: hitVFXPrefab
+      value: 
+      objectReference: {fileID: 8753255465704118925, guid: a759c8dfde03c09469952042235eb744, type: 3}
+    - target: {fileID: 5099157473437020263, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: movementBlocked
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5099157473437020263, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
+      propertyPath: muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 1880052438932075741, guid: bee4f37789eb1f64baf2c38963ddb300, type: 3}
     - target: {fileID: 5429454822868056326, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: field of view
       value: 51.93
@@ -7343,6 +7351,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
+      propertyPath: hitVFXPrefab
+      value: 
+      objectReference: {fileID: 8753255465704118925, guid: a759c8dfde03c09469952042235eb744, type: 3}
+    - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
+      propertyPath: muzzleFlashPrefab
+      value: 
+      objectReference: {fileID: 1880052438932075741, guid: bee4f37789eb1f64baf2c38963ddb300, type: 3}
     - target: {fileID: 3792525366700941184, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.88

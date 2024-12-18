@@ -91,6 +91,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject FireReticle; // Objeto del FireReticle
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject muzzleFlashPrefab; // Prefab del efecto visual
+    [SerializeField] private GameObject hitVFXPrefab; // Prefab del efecto de impacto
+
+
     [SerializeField] private Transform barrelTransform;
     [SerializeField] private Transform bulletParent;
     BulletManager bulletManager;
@@ -157,12 +161,22 @@ public class PlayerController : MonoBehaviour
     public void Shoot()
     {
         if (movementBlocked || gameState.isGamePaused) return;
+
+        // Instanciar el efecto visual del disparo con corrección de rotación
+        if (muzzleFlashPrefab != null)
+        {
+            Quaternion correctedRotation = barrelTransform.rotation * Quaternion.Euler(0, 180, 0); // Corregir el giro 180° en Y
+            GameObject muzzleFlash = GameObject.Instantiate(muzzleFlashPrefab, barrelTransform.position, correctedRotation, barrelTransform);
+            Destroy(muzzleFlash, 0.5f); // Destruir el efecto después de 0.5 segundos
+        }
+
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
         MessageManager.SendMessage(new Shoot(GetPlayerId()));
         bulletController bulletControll = bullet.GetComponent<bulletController>();
         bulletControll.original = false;
         // Realiza el raycast desde la cámara hacia adelante
+
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
@@ -170,14 +184,11 @@ public class PlayerController : MonoBehaviour
             bulletControll.hit = true;
             bulletControll.SetPlayerId(playerId);
 
-            // Verifica si el objeto golpeado es un jugador
             PlayerController otherPlayer = hit.collider.GetComponent<PlayerController>();
-            if (otherPlayer != null && otherPlayer != this) // Evita detectar al propio jugador
+            if (otherPlayer != null && otherPlayer != this)
             {
                 Debug.Log("Hit another player!");
-                
-                StartCoroutine(ChangeReticleColor(Color.red, 1f)); // Cambiar a rojo por 1 segundo
-
+                StartCoroutine(ChangeReticleColor(Color.red, 1f));
             }
             else
             {
@@ -190,29 +201,40 @@ public class PlayerController : MonoBehaviour
             Debug.Log("No hit detected.");
         }
     }
+
+
+
     private void ShootGun()
     {
         if (movementBlocked || gameState.isGamePaused) return;
+
+        // Instanciar el efecto visual del disparo con corrección de rotación
+        if (muzzleFlashPrefab != null)
+        {
+            Quaternion correctedRotation = barrelTransform.rotation * Quaternion.Euler(0, 180, 0); // Corregir el giro 180° en Y
+            GameObject muzzleFlash = GameObject.Instantiate(muzzleFlashPrefab, barrelTransform.position, correctedRotation, barrelTransform);
+            Destroy(muzzleFlash, 0.5f); // Destruir el efecto después de 0.5 segundos
+        }
+
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
         MessageManager.SendMessage(new Shoot(GetPlayerId()));
         bulletController bulletControll = bullet.GetComponent<bulletController>();
         bulletControll.original = true;
         // Realiza el raycast desde la cámara hacia adelante
+
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
             bulletControll.target = hit.point;
             bulletControll.hit = true;
 
-            // Verifica si el objeto golpeado es un jugador
             PlayerController otherPlayer = hit.collider.GetComponent<PlayerController>();
-            if (otherPlayer != null && otherPlayer != this) // Evita detectar al propio jugador
+            if (otherPlayer != null && otherPlayer != this)
             {
                 Debug.Log("Hit another player!");
                 bulletControll.SetPlayerId(playerId);
-                StartCoroutine(ChangeReticleColor(Color.red, 1f)); // Cambiar a rojo por 1 segundo
-
+                StartCoroutine(ChangeReticleColor(Color.red, 1f));
             }
             else
             {
@@ -225,6 +247,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("No hit detected.");
         }
     }
+
+
     private IEnumerator ChangeReticleColor(Color newColor, float duration)
     {
        
