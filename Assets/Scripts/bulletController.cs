@@ -12,6 +12,8 @@ public class bulletController : MonoBehaviour
     private int playerId;
     public Vector3 target { get; set; }
     public bool hit { get; set; }
+
+    public bool original = false;
     // Start is called before the first frame update
     private void OnEnable()
     {

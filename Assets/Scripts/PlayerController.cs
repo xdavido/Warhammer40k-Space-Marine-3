@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
         MessageManager.SendMessage(new Shoot(GetPlayerId()));
         bulletController bulletControll = bullet.GetComponent<bulletController>();
+        bulletControll.original = false;
         // Realiza el raycast desde la cámara hacia adelante
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
@@ -196,6 +197,7 @@ public class PlayerController : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
         MessageManager.SendMessage(new Shoot(GetPlayerId()));
         bulletController bulletControll = bullet.GetComponent<bulletController>();
+        bulletControll.original = true;
         // Realiza el raycast desde la cámara hacia adelante
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {

@@ -60,7 +60,6 @@ namespace _MessageType
             this.playerID = playerID;
         }
 
-        public int hitPlayerID;
     }
     public class HitPlayer : Message
     {

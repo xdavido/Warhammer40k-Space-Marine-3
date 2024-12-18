@@ -52,6 +52,7 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
+        MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
         MessageManager.messageDistribute[MessageType.HITPLAYER] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.SHOOT] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
@@ -68,6 +69,7 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] -= MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] -= MessageKill;
+        MessageManager.messageDistribute[MessageType.SHOOT] -= MessageShoot;
         MessageManager.messageDistribute[MessageType.HITPLAYER] -= MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
@@ -163,14 +165,14 @@ public class GameState : MonoBehaviour
         // Verificar si el ID del jugador impactado coincide con el jugador local
         if (shootMessage.playerID != MessageManager.playerID)
         {
-            Debug.Log("You've been hit!");
+            
 
-            myPlayer.GetComponent<PlayerController>().Shoot();
+            otherPlayer.GetComponent<PlayerController>().Shoot();
 
         }
         else
         {
-            Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
+            Debug.Log($"Player {shootMessage.playerID} was hit!");
         }
     }
 

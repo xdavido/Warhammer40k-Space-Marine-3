@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +9,7 @@ public class EnemiesIA : MonoBehaviour
     public State currentState = State.Patrol;
 
     [SerializeField] float attackRange = 10f;
+    [SerializeField] float attackNexoRange = 30f;
     [SerializeField] float visionRange = 15f;
     [SerializeField] float attackCoolDown = 2f;
     [SerializeField] GameObject projectilePrefab;
@@ -21,6 +22,7 @@ public class EnemiesIA : MonoBehaviour
     private float lastAttackTime = 0f;
     private Transform target = null;
     private bool isDead = false;
+    private bool isInNexoCollider = false;
 
     private void Start()
     {
@@ -33,7 +35,7 @@ public class EnemiesIA : MonoBehaviour
 
     private void Update()
     {
-        if (isDead) return; // No hacer nada si est�Emuerto
+        if (isDead) return; // No hacer nada si est・muerto
 
         switch (currentState)
         {
@@ -57,7 +59,7 @@ public class EnemiesIA : MonoBehaviour
         target = FindNearestPlayerInRange(visionRange);
         agent.destination = target.position;
 
-        animator.SetBool("isWalking", true); // Activar animaci�n de caminar
+        animator.SetBool("isWalking", true); // Activar animaci de caminar
         animator.SetBool("isShooting", false);
 
         if (target != null)
@@ -76,15 +78,31 @@ public class EnemiesIA : MonoBehaviour
         }
         else if (Vector3.Distance(nexo.position, transform.position) > visionRange)
         {
+            animator.SetBool("isWalking", true); // Activar animaci de caminar
+            animator.SetBool("isShooting", false);
             currentState = State.Patrol;
         }
+    }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        // Cambia el color para el rango de visión
+        Gizmos.color = Color.blue;
+        // Dibuja un círculo para el rango de visión
+        Gizmos.DrawWireSphere(transform.position, visionRange);
+
+        // Cambia el color para el rango de ataque
+        Gizmos.color = Color.red;
+        // Dibuja un círculo para el rango de ataque
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     void Attack()
     {
         agent.isStopped = true;
         animator.SetBool("isWalking", false);
-        animator.SetBool("isShooting", true); // Activar animaci�n de disparo
+        animator.SetBool("isShooting", true); // Activar animaci de disparo
 
         if (Time.time > lastAttackTime + attackCoolDown)
         {
@@ -94,6 +112,8 @@ public class EnemiesIA : MonoBehaviour
 
         if (Vector3.Distance(target.position, transform.position) > attackRange)
         {
+            animator.SetBool("isWalking", true); // Activar animaci de caminar
+            animator.SetBool("isShooting", false);
             currentState = State.Patrol;
             agent.isStopped = false;
         }
@@ -101,15 +121,25 @@ public class EnemiesIA : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(projectilePrefab, barret.position, Quaternion.identity);
+        if (target == null) return;
+
+        // Calcula la dirección hacia el objetivo
+        Vector3 direction = (target.position - barret.position).normalized;
+
+        // Crea el proyectil y ajusta su rotación hacia el objetivo
+        GameObject bullet = Instantiate(projectilePrefab, barret.position, Quaternion.LookRotation(direction));
+        bulletController bulletControll = bullet.GetComponent<bulletController>();
+        bulletControll.target = target.position;
+        bulletControll.hit = true;
+        bulletControll.original = true;
     }
 
     public void Die()
     {
         isDead = true;
-        animator.SetBool("isDead", true); // Activar animaci�n de muerte
+        animator.SetBool("isDead", true); // Activar animaci de muerte
         agent.isStopped = true;
-        // Opcional: Destruir el objeto despu�s de un tiempo
+        // Opcional: Destruir el objeto despu駸 de un tiempo
         Destroy(gameObject, 3f);
     }
 
@@ -130,4 +160,5 @@ public class EnemiesIA : MonoBehaviour
 
         return nearestPlayer;
     }
+
 }
