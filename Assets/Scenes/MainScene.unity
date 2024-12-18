@@ -6369,7 +6369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5099157473437020263, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: movementBlocked
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6831514862434564129, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: m_Name
