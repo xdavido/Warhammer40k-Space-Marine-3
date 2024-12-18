@@ -33,7 +33,7 @@ public class EnemiesIA : MonoBehaviour
 
     private void Update()
     {
-        if (isDead) return; // No hacer nada si est· muerto
+        if (isDead) return; // No hacer nada si estÅEmuerto
 
         switch (currentState)
         {

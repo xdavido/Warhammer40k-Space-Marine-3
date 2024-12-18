@@ -241,6 +241,16 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Horizontal", input.x);
         animator.SetFloat("Vertical", input.y);
 
+        if (dashAction.triggered && canDash)
+        {
+            StartDash(move);
+        }
+
+        if (isDashing)
+        {
+            HandleDash();
+        }
+
         // Rotación del jugador hacia la cámara
         AlignPlayerWithCamera();
     }

@@ -292,6 +292,7 @@ GameObject:
   - component: {fileID: 227126841779015121}
   - component: {fileID: 2197700663345587713}
   - component: {fileID: 3863383869299323663}
+  - component: {fileID: 7001716989165293706}
   m_Layer: 0
   m_Name: ENEMY
   m_TagString: Untagged
@@ -428,6 +429,27 @@ MonoBehaviour:
   attackCoolDown: 2
   projectilePrefab: {fileID: 1774883472182475380, guid: bee365d25c867834bb85e7340ae8e7dc, type: 3}
   barret: {fileID: 4985929350269812817}
+--- !u!95 &7001716989165293706
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385684751780737256}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 8ff31e4ea9591dc4daa1c6c5c53a2122, type: 3}
+  m_Controller: {fileID: 9100000, guid: 8e418fe30949a314abba6a448ace5422, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &776353561971016152
 GameObject:
   m_ObjectHideFlags: 0
