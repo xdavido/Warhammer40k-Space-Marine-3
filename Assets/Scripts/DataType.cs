@@ -11,6 +11,8 @@ namespace _MessageType
         POSITION,
         ACKNOWLEDGEMENTS,
         SHOOT,
+        HITENEMY,
+        KILLENEMY,
         HITPLAYER,
         KILL,
         PAUSE,
@@ -53,6 +55,26 @@ namespace _MessageType
         public float rot;
     }
 
+    public class KillEnemyMessage : Message
+    {
+        public int EnemyID;
+
+        public KillEnemyMessage(int EnemyID) : base(MessageType.KILLENEMY)
+        {
+            this.EnemyID = playerID;
+        }
+    }
+
+
+    public class HitEnemy : Message
+    {
+        public HitEnemy(int hitEnemyID) : base(MessageType.HITENEMY)
+        {
+            this.hitEnemyID = hitEnemyID;
+        }
+
+        public int hitEnemyID;
+    }
     public class Shoot : Message
     {
         public Shoot(Vector3 hit, int playerID) : base(MessageType.SHOOT)
@@ -164,6 +186,16 @@ namespace _MessageType
                 case MessageType.KILL:
                     {
                         m = JsonUtility.FromJson<KillMessage>(json);
+                        break;
+                    }
+                case MessageType.KILLENEMY:
+                    {
+                        m = JsonUtility.FromJson<KillEnemyMessage>(json);
+                        break;
+                    }
+                case MessageType.HITENEMY:
+                    {
+                        m = JsonUtility.FromJson<HitEnemy>(json);
                         break;
                     }
             }

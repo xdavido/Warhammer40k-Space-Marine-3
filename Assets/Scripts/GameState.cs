@@ -52,6 +52,8 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
+        MessageManager.messageDistribute[MessageType.HITENEMY] += MessageKill;
+        MessageManager.messageDistribute[MessageType.KILLENEMY] += MessageKill;
         MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
         MessageManager.messageDistribute[MessageType.HITPLAYER] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
@@ -137,7 +139,20 @@ public class GameState : MonoBehaviour
        
     }
 
- 
+    void MessageKillEnemy(Message message)
+    {
+        // Desactiva al jugador local eliminado
+        otherPlayer.gameObject.SetActive(false);
+
+
+    }
+    void MessageHitEnemy(Message message)
+    {
+        // Desactiva al jugador local eliminado
+        otherPlayer.gameObject.SetActive(false);
+
+
+    }
 
     void MessageHitPlayer(Message message)
     {

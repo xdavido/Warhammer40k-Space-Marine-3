@@ -14,6 +14,7 @@ public class EnemiesIA : MonoBehaviour
     [SerializeField] float attackCoolDown = 2f;
     [SerializeField] GameObject projectilePrefab;
     [SerializeField] Transform barret;
+    [SerializeField] int HP = 3;
 
     private Animator animator; // Referencia al Animator
     private Transform nexo;
@@ -23,6 +24,8 @@ public class EnemiesIA : MonoBehaviour
     private Transform target = null;
     private bool isDead = false;
     private bool isInNexoCollider = false;
+
+    private int enemyID;
 
     private void Start()
     {
@@ -47,9 +50,6 @@ public class EnemiesIA : MonoBehaviour
                 break;
             case State.Attack:
                 Attack();
-                break;
-            case State.Dead:
-                Die();
                 break;
         }
     }
@@ -143,6 +143,12 @@ public class EnemiesIA : MonoBehaviour
         Destroy(gameObject, 3f);
     }
 
+    public void TakeDMG()
+    {
+        HP--;
+        if(HP <= 0) { Die(); }
+    }
+
     Transform FindNearestPlayerInRange(float range)
     {
         Transform nearestPlayer = nexo;
@@ -161,4 +167,14 @@ public class EnemiesIA : MonoBehaviour
         return nearestPlayer;
     }
 
+    public int GetEnemyID()
+    {
+        return enemyID;
+    }
+
+    // Setter para enemyID
+    public void SetEnemyID(int newEnemyID)
+    {
+        enemyID = newEnemyID;
+    }
 }

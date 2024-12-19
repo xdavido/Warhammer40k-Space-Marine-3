@@ -84,6 +84,10 @@ public class bulletController : MonoBehaviour
             Destroy(hitVFX, 1f);
         }
 
+        if(original && other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemiesIA>().TakeDMG();
+        }
         Destroy(gameObject);
 
 
