@@ -4880,8 +4880,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDecal: {fileID: 0}
   hitVFXPrefab: {fileID: 8753255465704118925, guid: a759c8dfde03c09469952042235eb744, type: 3}
+  hitPlayerVFXPrefab: {fileID: 100024, guid: de670bf93ae4bb04bbfb3e04751e679d, type: 3}
   bloodPrefab: {fileID: 100006, guid: 8f89695518631824782102af0bed7d9e, type: 3}
   original: 0
+  isEnemy: 0
 --- !u!65 &8541956366588937801
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -9,12 +9,14 @@ namespace _MessageType
     {
         _NONE,
         POSITION,
+        ENEMYPOSITION,
         ACKNOWLEDGEMENTS,
         SHOOT,
         HITENEMY,
         KILLENEMY,
         HITPLAYER,
         KILL,
+        REVIVE,
         PAUSE,
         UNPAUSE,
         RESET,
@@ -116,7 +118,15 @@ namespace _MessageType
             this.PlayerID = playerID;
         }
     }
+    public class ReviveMessage : Message
+    {
+        public int PlayerID;
 
+        public ReviveMessage(int playerID) : base(MessageType.REVIVE)
+        {
+            this.PlayerID = playerID;
+        }
+    }
     public class Acknowledgements : Message
     {
         public Acknowledgements(List<uint> acks) : base(MessageType.ACKNOWLEDGEMENTS)
@@ -186,6 +196,11 @@ namespace _MessageType
                 case MessageType.KILL:
                     {
                         m = JsonUtility.FromJson<KillMessage>(json);
+                        break;
+                    }
+                case MessageType.REVIVE:
+                    {
+                        m = JsonUtility.FromJson<ReviveMessage>(json);
                         break;
                     }
                 case MessageType.KILLENEMY:

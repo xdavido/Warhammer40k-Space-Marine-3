@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using _MessageType;
 
 public class EnemiesIA : MonoBehaviour
 {
     public enum State { Patrol, Chasing, Attack, Dead }
     public State currentState = State.Patrol;
+    [SerializeField] float MESSAGE_SEND_DELAY = 0.01f;
 
     [SerializeField] float attackRange = 10f;
     [SerializeField] float attackNexoRange = 30f;
@@ -27,6 +29,7 @@ public class EnemiesIA : MonoBehaviour
 
     private int enemyID;
 
+
     private void Start()
     {
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -34,6 +37,8 @@ public class EnemiesIA : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>(); // Inicializar el Animator
         currentState = State.Patrol;
+
+       // StartCoroutine(SendMyState());
     }
 
     private void Update()
@@ -72,11 +77,19 @@ public class EnemiesIA : MonoBehaviour
     {
         agent.destination = target.position;
 
-        if (Vector3.Distance(nexo.position, transform.position) < attackRange)
+        if (Vector3.Distance(target.position, transform.position) < attackRange)
         {
             currentState = State.Attack;
+            return;
         }
-        else if (Vector3.Distance(nexo.position, transform.position) > visionRange)
+        if (Vector3.Distance(nexo.position, transform.position) < attackNexoRange)
+        {
+            target = nexo;
+            currentState = State.Attack;
+        }
+
+
+        else if (Vector3.Distance(target.position, transform.position) > visionRange)
         {
             animator.SetBool("isWalking", true); // Activar animaci de caminar
             animator.SetBool("isShooting", false);
@@ -87,6 +100,11 @@ public class EnemiesIA : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+
+        // Cambia el color para el rango de visión
+        Gizmos.color = Color.green;
+        // Dibuja un círculo para el rango de visión
+        Gizmos.DrawWireSphere(transform.position, attackNexoRange);
         // Cambia el color para el rango de visión
         Gizmos.color = Color.blue;
         // Dibuja un círculo para el rango de visión
@@ -108,6 +126,10 @@ public class EnemiesIA : MonoBehaviour
         {
             Shoot();
             lastAttackTime = Time.time;
+        }
+        if (Vector3.Distance(target.position, transform.position) < attackNexoRange)
+        {
+            return;
         }
 
         if (Vector3.Distance(target.position, transform.position) > attackRange)
@@ -132,6 +154,7 @@ public class EnemiesIA : MonoBehaviour
         bulletControll.target = target.position;
         bulletControll.hit = true;
         bulletControll.original = true;
+        bulletControll.isEnemy = true;
     }
 
     public void Die()
@@ -140,12 +163,16 @@ public class EnemiesIA : MonoBehaviour
         currentState = State.Dead;
         animator.SetBool("isDead", true ); // Activar animaci de muerte
         agent.isStopped = true;
+        //MessageManager.SendMessage(new KillEnemyMessage(enemyID));
         // Opcional: Destruir el objeto despu駸 de un tiempo
+
+        EnemyManager.instance.RemoveEnemy(gameObject);
         Destroy(gameObject, 3f);
     }
 
     public void TakeDMG()
     {
+        
         HP--;
         if(HP <= 0) { Die(); }
     }
@@ -177,5 +204,27 @@ public class EnemiesIA : MonoBehaviour
     public void SetEnemyID(int newEnemyID)
     {
         enemyID = newEnemyID;
+    }
+
+    IEnumerator SendMyState()
+    {
+        while (true)
+        {
+            yield return new WaitForSecondsRealtime(MESSAGE_SEND_DELAY);
+            MessageManager.SendMessage(new Position(transform.position,
+                transform.rotation.eulerAngles.y));
+        }
+    }
+
+    public void ResetIA()
+    {
+        target = null;
+        if (players != null)
+        {
+            System.Array.Clear(players, 0, players.Length);
+        }
+        agent.isStopped = false;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        currentState = State.Patrol;
     }
 }

@@ -52,8 +52,9 @@ public class GameState : MonoBehaviour
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
-        MessageManager.messageDistribute[MessageType.HITENEMY] += MessageKill;
-        MessageManager.messageDistribute[MessageType.KILLENEMY] += MessageKill;
+        MessageManager.messageDistribute[MessageType.REVIVE] += MessageRevive;
+        MessageManager.messageDistribute[MessageType.HITENEMY] += MessageHitEnemy;
+        MessageManager.messageDistribute[MessageType.KILLENEMY] += MessageKillEnemy;
         MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
         MessageManager.messageDistribute[MessageType.HITPLAYER] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
@@ -71,7 +72,10 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.POSITION] -= MessagePosition;
         MessageManager.messageDistribute[MessageType.KILL] -= MessageKill;
         MessageManager.messageDistribute[MessageType.SHOOT] -= MessageShoot;
+        MessageManager.messageDistribute[MessageType.REVIVE] -= MessageRevive;
         MessageManager.messageDistribute[MessageType.HITPLAYER] -= MessageHitPlayer;
+        MessageManager.messageDistribute[MessageType.HITENEMY] -= MessageHitEnemy;
+        MessageManager.messageDistribute[MessageType.KILLENEMY] -= MessageKillEnemy;
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] -= MessageReset;
@@ -131,25 +135,55 @@ public class GameState : MonoBehaviour
         
     }
 
+    void MessageRevive(Message message)
+    {
+
+        if (message.playerID != MessageManager.playerID)
+        {
+            myPlayer.gameObject.SetActive(true);
+            myPlayer.GetComponent<PlayerController>().Revive();
+
+        }
+
+
+    }
+
+    
     void MessageKill(Message message)
     {
-        // Desactiva al jugador local eliminado
-        otherPlayer.gameObject.SetActive(false);
 
+        if (message.playerID != MessageManager.playerID)
+        {
+
+            otherPlayer.GetComponent<PlayerController>().Dead();
+           
+        }
+            
        
     }
 
     void MessageKillEnemy(Message message)
     {
-        // Desactiva al jugador local eliminado
-        otherPlayer.gameObject.SetActive(false);
 
+        KillEnemyMessage killEnemyMessage = message as KillEnemyMessage;
+
+        if (killEnemyMessage.playerID != MessageManager.playerID)
+        {
+
+            EnemyManager.instance.KillEnemy(killEnemyMessage.EnemyID);
+        }
 
     }
     void MessageHitEnemy(Message message)
     {
-        // Desactiva al jugador local eliminado
-        otherPlayer.gameObject.SetActive(false);
+
+        HitEnemy hitEnemyMessage = message as HitEnemy;
+
+
+        if (hitEnemyMessage.playerID != MessageManager.playerID)
+        {
+            EnemyManager.instance.HitEnemy(hitEnemyMessage.hitEnemyID);
+        }
 
 
     }
@@ -166,10 +200,7 @@ public class GameState : MonoBehaviour
             myPlayer.GetComponent<PlayerController>().TakeDmg();
 
         }
-        else
-        {
-            Debug.Log($"Player {shootMessage.hitPlayerID} was hit!");
-        }
+
     }
 
     void MessageShoot(Message message)

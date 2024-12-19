@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     private int playerId;                                         // Player unique ID
     public bool movementBlocked = false;
 
-    private int health = 4; // Vida inicial del jugador
+    [HideInInspector]public int health = 4; // Vida inicial del jugador
     [SerializeField] private GameObject Damage1;
     [SerializeField] private GameObject Damage2;
     [SerializeField] private GameObject Damage3;
@@ -93,12 +93,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private GameObject muzzleFlashPrefab; // Prefab del efecto visual
     [SerializeField] private GameObject hitVFXPrefab; // Prefab del efecto de impacto
-
+    [SerializeField] private GameObject deadthTotemPrefab;
 
     [SerializeField] private Transform barrelTransform;
     [SerializeField] private Transform bulletParent;
     BulletManager bulletManager;
     private Color originalColor;
+    private GameObject totemref = null;
 
     // animations
     public Animator animator;
@@ -106,6 +107,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip shootSound; // Clip de sonido del disparo
     private AudioSource audioSource;             // Componente de audio
 
+    public bool isDead = false;
 
     private void Awake()
     {
@@ -236,7 +238,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
-            Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
+           
             bulletControll.target = hit.point;
             MessageManager.SendMessage(new Shoot(hit.point,GetPlayerId()));
             bulletControll.hit = true;
@@ -378,43 +380,70 @@ public class PlayerController : MonoBehaviour
         playerId = id;
     }
 
-
+    public void Revive()
+    {
+        health = 4;
+        if(totemref!= null)
+        {
+            Destroy(totemref);
+        }
+        Damage1.SetActive(false);
+        Damage2.SetActive(false);
+        Damage3.SetActive(false);
+    }
     public void TakeDmg()
     {
-        impulseSource.GenerateImpulse();
-        health -= 1;
-
-        switch (health)
+        if (!movementBlocked)
         {
-            case 4:
-                Debug.Log("Player has full health. No Canvas active.");
-                break;
-            case 3:
-                if (Damage1 != null) Damage1.SetActive(true);
-                Debug.Log("Player has been hit. Damage1 Canvas active.");
-                break;
-            case 2:
-                if (Damage2 != null) Damage2.SetActive(true);
-                Debug.Log("Player has moderate health. Damage2 Canvas active.");
-                break;
-            case 1:
-                if (Damage3 != null) Damage3.SetActive(true);
-                Debug.Log("Player is critically injured. Damage3 Canvas active.");
-                break;
-            case 0:
-                // Notificar al GameState sobre la muerte del jugador
-                MessageManager.SendMessage(new KillMessage(playerId));
-                Debug.Log($"{gameObject.name} has been killed!");
-                break;
-            default:
-                Debug.LogWarning("Invalid health value.");
-                break;
-        }
+            impulseSource.GenerateImpulse();
+            health -= 1;
 
+            switch (health)
+            {
+                case 4:
+                    Debug.Log("Player has full health. No Canvas active.");
+                    break;
+                case 3:
+                    if (Damage1 != null) Damage1.SetActive(true);
+                    Debug.Log("Player has been hit. Damage1 Canvas active.");
+                    break;
+                case 2:
+                    if (Damage2 != null) Damage2.SetActive(true);
+                    Debug.Log("Player has moderate health. Damage2 Canvas active.");
+                    break;
+                case 1:
+                    if (Damage3 != null) Damage3.SetActive(true);
+                    Debug.Log("Player is critically injured. Damage3 Canvas active.");
+                    break;
+                case 0:
+                    // Notificar al GameState sobre la muerte del jugador
+                    MessageManager.SendMessage(new KillMessage(playerId));
+                   
+                    Dead(); 
+
+                    Debug.Log($"{gameObject.name} has been killed!");
+                    break;
+                default:
+                    Debug.LogWarning("Invalid health value.");
+                    break;
+            }
+        }
         Debug.Log($"{gameObject.name} has taken 1 damage!");
     }
 
-
+    public void Dead()
+    {
+        GameObject totem = GameObject.Instantiate(deadthTotemPrefab,transform.position,transform.rotation);
+        if (movementBlocked)
+        {
+           Revive script = totem.AddComponent<Revive>();
+            script.player = gameObject;
+        }
+        isDead = true;
+        totemref = totem;
+        gameObject.SetActive(false);
+        EnemyManager.instance.ResetIA();
+    }
 
 
     private IEnumerator ShakeCamera()

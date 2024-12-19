@@ -30,6 +30,49 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void KillEnemy(int id)
+    {
+
+        foreach (GameObject enemy in enemies)
+        {
+            EnemiesIA enemyIA = enemy.GetComponent<EnemiesIA>();
+            if (enemyIA != null && enemyIA.GetEnemyID() == id)
+            {
+                enemyIA.Die();
+               
+                break;
+            }
+        }
+    }
+
+    public void HitEnemy(int id)
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            EnemiesIA enemyIA = enemy.GetComponent<EnemiesIA>();
+            if (enemyIA != null && enemyIA.GetEnemyID() == id)
+            {
+                enemyIA.TakeDMG();
+
+                break;
+            }
+        }
+    }
+
+    public void ResetIA()
+    {
+        foreach (GameObject enemy in enemies)
+        {
+            EnemiesIA enemyIA = enemy.GetComponent<EnemiesIA>();
+            if (enemyIA != null)
+            {
+                enemyIA.ResetIA();
+
+    
+            }
+        }
+    }
+
     // Método para acceder a todos los enemigos
     public List<GameObject> GetAllEnemies()
     {

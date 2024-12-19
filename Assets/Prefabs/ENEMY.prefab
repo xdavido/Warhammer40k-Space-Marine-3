@@ -2816,7 +2816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5090899365295052273}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.895272, z: -0, w: 0.44551992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.15999985, y: -1.1680005, z: -0.21500015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2841,7 +2841,7 @@ Transform:
   - {fileID: 4671374302779051735}
   - {fileID: 6987757084265417321}
   m_Father: {fileID: 7532861665724613354}
-  m_LocalEulerAnglesHint: {x: 0, y: 127.087, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5158283160415609340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3441,7 +3441,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 5939978995926336921}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3467,11 +3467,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  MESSAGE_SEND_DELAY: 0.01
   attackRange: 10
-  attackNexoRange: 20
+  attackNexoRange: 24.9
   visionRange: 15
   attackCoolDown: 2
-  projectilePrefab: {fileID: 1774883472182475380, guid: bee365d25c867834bb85e7340ae8e7dc, type: 3}
+  projectilePrefab: {fileID: 2857097079408374987, guid: 4834d20031227224188d3dadd9b03911, type: 3}
   barret: {fileID: 7532861665724613354}
   HP: 3
 --- !u!95 &1680451762257581861

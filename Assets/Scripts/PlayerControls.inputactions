@@ -162,17 +162,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bdf4e5b2-0433-4ada-b365-6d0af97693f3",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a4a43979-6aec-4640-9a91-9a48523d4e90",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",

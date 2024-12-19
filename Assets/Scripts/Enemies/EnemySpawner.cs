@@ -39,5 +39,6 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject enemy =  Instantiate(enemyPrefab, transform.position, Quaternion.identity);
         EnemyManager.instance.AddEnemy(enemy);
+        
     }
 }
