@@ -8,7 +8,7 @@ public class bulletController : MonoBehaviour
     [SerializeField] private GameObject bulletDecal;
     [SerializeField] private GameObject hitVFXPrefab;
     [SerializeField] private GameObject hitPlayerVFXPrefab;
-    [SerializeField] private GameObject bloodPrefab; // Prefab de sangre agregado
+    [SerializeField] private GameObject bloodPrefab; 
 
 
     private float speed = 50f;

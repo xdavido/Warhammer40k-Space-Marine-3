@@ -13,11 +13,10 @@ public class GameState : MonoBehaviour
     const string Player2_Name = "PLAYER_2";
     [SerializeField] float MESSAGE_SEND_DELAY = 1.0f;
 
-    //Real ingame objects
+    
     Transform otherPlayer;
     Transform myPlayer;
-    //Server -> Blue
-    //Client -> Red
+
 
     //State Game
     [HideInInspector] public bool isGamePaused;
@@ -27,7 +26,7 @@ public class GameState : MonoBehaviour
 
     
 
-    //DataTank dataTank;
+    
     [SerializeField] GameObject canvasWin;
     [SerializeField] GameObject canvasEnd;
 
@@ -52,7 +51,7 @@ public class GameState : MonoBehaviour
         startResetHoldTime = 0;
 
 
-        //dataTank = FindAnyObjectByType<DataTank>();
+      
 
         GetPlayers();
 
@@ -131,11 +130,7 @@ public class GameState : MonoBehaviour
             MessageManager.SendMessage(MessageType.RESET);
             ResetGame();
         }
-        if (setColorRestart)
-        {
-           // dataTank.SetSettingsTanks();
-            setColorRestart = false;
-        }
+
     }
 
     void HandlePong(Message message)
@@ -388,11 +383,7 @@ public class GameState : MonoBehaviour
 
     void KillGame()
     {
-        //BulletScript[] bullets = FindObjectsOfType<BulletScript>();
-        //foreach (BulletScript b in bullets)
-        //{
-        //    Destroy(b.gameObject);
-        //}
+
 
         StopCoroutine(SendMyState());
 
