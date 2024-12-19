@@ -10,29 +10,35 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - David Ruiz Luengo
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
-## (Exercise 3): ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
+## DONE (Exercise 4): ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
 - Environment
-- UI
-- Shooter PvP 1vs1
-- Player Prefab (Dash,Damage,Shoot)
-
-## (Exercise 4): ![Final Version](https://img.shields.io/badge/Final_Version-1.0-blue)
 - VFX (Heals,Projectiles,Dust,Portals,Blood Damage)
-- Coperative Shooter PvE 2vsAI
-- Space Marine Player Prefab (Shoot,Dash,Heals,Reload)
 - Orc AI Prefab(Run,Shoot,Die)
-- Heal Bars
-- Music & SFX
+- Space Marine Player Prefab (Shoot,Dash,Revive)
+- UI
+- Coperative Shooter PvE 2vsAI
+- Player Prefab (Dash,Damage,Shoot)
+- Protective Barrel
 
+## WIP (Exercise 4.5): ![Final Demo Version](https://img.shields.io/badge/Final_Version-0.5.5-blue)
+- Music & SFX
+- Jitter & Lattency
+- 
+## (Exercise 5): ![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
+- FINAL GAME
+  
 ## Third Person Resources
 ### Unity Assets:
 - Old Ruins 
 - Rocks 
 - Guardian 
-- Skybox 
+- Skybox
+- Portals VFX
+- Blood VFX
  
 ### Characters:
-- Spacemarine by Sanayork 
+- Spacemarine by Sanayork
+- Emperor's Sword
 - Orc by Gabor Kis-Juhasz
 
 
