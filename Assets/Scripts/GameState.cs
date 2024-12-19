@@ -54,7 +54,6 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
         MessageManager.messageDistribute[MessageType.SHOOT] += MessageShoot;
         MessageManager.messageDistribute[MessageType.HITPLAYER] += MessageHitPlayer;
-        MessageManager.messageDistribute[MessageType.SHOOT] += MessageHitPlayer;
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] += MessageReset;
@@ -167,7 +166,7 @@ public class GameState : MonoBehaviour
         {
             
 
-            otherPlayer.GetComponent<PlayerController>().Shoot();
+            otherPlayer.GetComponent<PlayerController>().Shoot(shootMessage.hitPoint);
 
         }
         else
