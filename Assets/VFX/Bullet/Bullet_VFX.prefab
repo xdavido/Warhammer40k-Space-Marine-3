@@ -4840,6 +4840,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1558877200159662578}
   - component: {fileID: 3713411669989366314}
+  - component: {fileID: 8541956366588937801}
   m_Layer: 0
   m_Name: Bullet_VFX
   m_TagString: Untagged
@@ -4879,6 +4880,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDecal: {fileID: 0}
   hitVFXPrefab: {fileID: 8753255465704118925, guid: a759c8dfde03c09469952042235eb744, type: 3}
+  original: 0
+--- !u!65 &8541956366588937801
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857097079408374987}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6362752225980288909
 GameObject:
   m_ObjectHideFlags: 0

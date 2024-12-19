@@ -55,10 +55,12 @@ namespace _MessageType
 
     public class Shoot : Message
     {
-        public Shoot(int playerID) : base(MessageType.SHOOT)
+        public Shoot(Vector3 hit, int playerID) : base(MessageType.SHOOT)
         {
             this.playerID = playerID;
+            this.hitPoint = hit;
         }
+        public Vector3 hitPoint;
 
     }
     public class HitPlayer : Message

@@ -158,9 +158,9 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void Shoot()
+    public void Shoot( Vector3 hitPoint)
     {
-        if (movementBlocked || gameState.isGamePaused) return;
+        if (gameState.isGamePaused) return;
 
         // Instanciar el efecto visual del disparo con corrección de rotación
         if (muzzleFlashPrefab != null)
@@ -172,15 +172,15 @@ public class PlayerController : MonoBehaviour
 
         RaycastHit hit;
         GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
-        MessageManager.SendMessage(new Shoot(GetPlayerId()));
+        
         bulletController bulletControll = bullet.GetComponent<bulletController>();
         bulletControll.original = false;
+        bulletControll.target = hitPoint;
         // Realiza el raycast desde la cámara hacia adelante
 
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, Mathf.Infinity))
         {
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
-            bulletControll.target = hit.point;
             bulletControll.hit = true;
             bulletControll.SetPlayerId(playerId);
 
@@ -217,8 +217,8 @@ public class PlayerController : MonoBehaviour
         }
 
         RaycastHit hit;
-        GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, Quaternion.identity, bulletParent);
-        MessageManager.SendMessage(new Shoot(GetPlayerId()));
+        GameObject bullet = GameObject.Instantiate(bulletPrefab, barrelTransform.position, transform.rotation, bulletParent);
+        
         bulletController bulletControll = bullet.GetComponent<bulletController>();
         bulletControll.original = true;
         // Realiza el raycast desde la cámara hacia adelante
@@ -227,6 +227,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log($"Raycast hit: {hit.collider.gameObject.name}");
             bulletControll.target = hit.point;
+            MessageManager.SendMessage(new Shoot(hit.point,GetPlayerId()));
             bulletControll.hit = true;
 
             PlayerController otherPlayer = hit.collider.GetComponent<PlayerController>();
