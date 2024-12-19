@@ -101,7 +101,7 @@ public class GameState : MonoBehaviour
     {
         if(inLose || inWin)
         {
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 ResetGame();    
                 MessageManager.SendMessage(MessageType.RESET);
@@ -123,12 +123,7 @@ public class GameState : MonoBehaviour
             SendPauseGame(!isGamePaused);
         }
 
-        if (Input.GetKeyDown(KeyCode.Z)) {
 
-            Win();
-            MessageManager.SendMessage(MessageType.WIN); 
-        
-        }
         //Hold R
         if (Input.GetKeyDown(KeyCode.R)) startResetHoldTime = Time.time;
         if (Input.GetKey(KeyCode.R) && (Time.time - startResetHoldTime) >= R_HOLDING_TIME)
