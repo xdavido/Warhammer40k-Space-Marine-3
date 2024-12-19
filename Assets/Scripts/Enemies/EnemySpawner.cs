@@ -15,6 +15,11 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnWaves());
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     IEnumerator SpawnWaves()
     {

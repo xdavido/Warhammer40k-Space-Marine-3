@@ -18,14 +18,14 @@ public class EnemiesIA : MonoBehaviour
     [SerializeField] Transform barret;
     [SerializeField] int HP = 3;
 
-    private Animator animator; 
+    private Animator animator; // Referencia al Animator
     private Transform nexo;
     private GameObject[] players;
     private NavMeshAgent agent;
     private float lastAttackTime = 0f;
     private Transform target = null;
     private bool isDead = false;
-    
+    private bool isInNexoCollider = false;
 
     private int enemyID;
 
@@ -35,10 +35,10 @@ public class EnemiesIA : MonoBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         nexo = GameObject.FindGameObjectWithTag("Nexo").transform;
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>(); 
+        animator = GetComponent<Animator>(); // Inicializar el Animator
         currentState = State.Patrol;
 
-       
+       // StartCoroutine(SendMyState());
     }
 
     private void Update()
@@ -171,7 +171,8 @@ public class EnemiesIA : MonoBehaviour
     }
 
     public void TakeDMG()
-    {      
+    {
+        
         HP--;
         if(HP <= 0) { Die(); }
     }
@@ -199,7 +200,7 @@ public class EnemiesIA : MonoBehaviour
         return enemyID;
     }
 
-    
+    // Setter para enemyID
     public void SetEnemyID(int newEnemyID)
     {
         enemyID = newEnemyID;
