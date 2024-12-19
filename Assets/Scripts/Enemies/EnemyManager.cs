@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using _MessageType;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class EnemyManager : MonoBehaviour
     // Lista de enemigos en la escena
     public List<GameObject> enemies = new List<GameObject>();
 
-    int id = 0;
+    [HideInInspector ]public int id = 0;
+
+    [HideInInspector] public int removedEnemiesCount = 0;
 
     // Método para añadir un enemigo
     public void AddEnemy(GameObject enemy)
@@ -27,6 +30,14 @@ public class EnemyManager : MonoBehaviour
         if (enemies.Contains(enemy))
         {
             enemies.Remove(enemy);
+
+            removedEnemiesCount++; // Incrementa el contador
+
+            // Verifica si se alcanzó el umbral para enviar el mensaje LOSE
+            if (removedEnemiesCount >= 15)
+            {
+                MessageManager.SendMessage(MessageType.WIN); // Envía el mensaje
+            }
         }
     }
 

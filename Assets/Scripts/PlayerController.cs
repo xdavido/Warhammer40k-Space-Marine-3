@@ -109,6 +109,9 @@ public class PlayerController : MonoBehaviour
 
     public bool isDead = false;
 
+
+
+
     private void Awake()
     {
         // animations
@@ -132,7 +135,9 @@ public class PlayerController : MonoBehaviour
         gameState = FindObjectOfType<GameState>();
         cameraTransform = cameras;
 
-        StartCoroutine(PingRoutine());
+        // StartCoroutine(PingRoutine());
+
+        StartCoroutine(AnimationSyncRoutine());
 
         if (FireReticle != null)
         {
@@ -531,4 +536,25 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimationSyncRoutine()
+    {
+        while (true)
+        {
+            SendAnimationState();
+            yield return new WaitForSeconds(0.05f); // Cada 50ms (20 Hz)
+        }
+    }
+
+    private void SendAnimationState()
+    {
+        // Recoge parámetros necesarios del Animator
+        float horizontal = animator.GetFloat("Horizontal");
+        float vertical = animator.GetFloat("Vertical");
+       
+        // Crea un mensaje de animación
+        AnimationStateMessage animationMessage = new AnimationStateMessage(playerId, horizontal, vertical);
+
+        // Envía el mensaje usando tu sistema de mensajería
+        MessageManager.SendMessage(animationMessage);
+    }
 }

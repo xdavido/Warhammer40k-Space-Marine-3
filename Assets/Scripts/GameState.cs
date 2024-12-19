@@ -25,21 +25,30 @@ public class GameState : MonoBehaviour
     float startResetHoldTime;
     float R_HOLDING_TIME = 3.0f;
 
-    public static GameObject[] tanks;
+    
 
     //DataTank dataTank;
+    [SerializeField] GameObject canvasWin;
+    [SerializeField] GameObject canvasEnd;
 
-    [SerializeField] GameObject panelEndGame;
-    [SerializeField] TextMeshProUGUI textEndGame;
+    [SerializeField] GameObject canvas;
+    [SerializeField] GameObject canvasBarra;
+
 
     [SerializeField] TextMeshProUGUI pingText;
     [SerializeField] TextMeshProUGUI healthText;
   
 
     bool setColorRestart = false;
+    bool inWin = false;
+    bool inLose = false;
+    bool isResetting = false;
     void Start()
     {
         isGamePaused = false;
+        inWin = false;
+        inLose = false;
+        isResetting = false;
         startResetHoldTime = 0;
 
 
@@ -51,6 +60,7 @@ public class GameState : MonoBehaviour
 
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] += MessagePosition;
+        MessageManager.messageDistribute[MessageType.ANIMATIONSTATE] += MessageAnimation;
         MessageManager.messageDistribute[MessageType.KILL] += MessageKill;
         MessageManager.messageDistribute[MessageType.REVIVE] += MessageRevive;
         MessageManager.messageDistribute[MessageType.HITENEMY] += MessageHitEnemy;
@@ -60,6 +70,8 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.PAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] += MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] += MessageReset;
+        MessageManager.messageDistribute[MessageType.WIN] += MessageWin;
+        MessageManager.messageDistribute[MessageType.LOSE] += MessageLose;
 
         StartCoroutine(SendMyState());
 
@@ -70,6 +82,7 @@ public class GameState : MonoBehaviour
     {
         if (MessageManager.messageDistribute.Count == 0) return;
         MessageManager.messageDistribute[MessageType.POSITION] -= MessagePosition;
+        MessageManager.messageDistribute[MessageType.ANIMATIONSTATE] -= MessageAnimation;
         MessageManager.messageDistribute[MessageType.KILL] -= MessageKill;
         MessageManager.messageDistribute[MessageType.SHOOT] -= MessageShoot;
         MessageManager.messageDistribute[MessageType.REVIVE] -= MessageRevive;
@@ -79,16 +92,43 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.PAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.UNPAUSE] -= MessagePause;
         MessageManager.messageDistribute[MessageType.RESET] -= MessageReset;
-        MessageManager.messageDistribute[MessageType.PONG] += HandlePong;
+        MessageManager.messageDistribute[MessageType.PONG] -= HandlePong;
+        MessageManager.messageDistribute[MessageType.WIN] -= MessageWin;
+        MessageManager.messageDistribute[MessageType.LOSE] -= MessageLose;
     }
 
     void Update()
     {
+        if(inLose || inWin)
+        {
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                ResetGame();    
+                MessageManager.SendMessage(MessageType.RESET);
+               
+            }
+            return;
+        }
+
+        if (!inLose && !inWin)
+        {
+            if (!myPlayer.gameObject.activeSelf && !otherPlayer.gameObject.activeSelf)
+            {
+                MessageManager.SendMessage(MessageType.LOSE);
+                Lose();
+            }
+        }
         if (Input.GetKeyDown(KeyCode.P))
         {
             SendPauseGame(!isGamePaused);
         }
 
+        if (Input.GetKeyDown(KeyCode.Z)) {
+
+            Win();
+            MessageManager.SendMessage(MessageType.WIN); 
+        
+        }
         //Hold R
         if (Input.GetKeyDown(KeyCode.R)) startResetHoldTime = Time.time;
         if (Input.GetKey(KeyCode.R) && (Time.time - startResetHoldTime) >= R_HOLDING_TIME)
@@ -133,6 +173,17 @@ public class GameState : MonoBehaviour
         otherPlayer.position = p.pos;
         otherPlayer.rotation = Quaternion.Euler(0, p.rot,0);
         
+    }
+
+    void MessageAnimation(Message message)
+    {
+        AnimationStateMessage animation = message as AnimationStateMessage;
+        if (animation.PlayerId != MessageManager.playerID) // Asegúrate de que no estás aplicando tu propia animación
+        {
+            otherPlayer.GetComponent<PlayerController>().animator.SetFloat("Horizontal", animation.Horizontal);
+            otherPlayer.GetComponent<PlayerController>().animator.SetFloat("Vertical", animation.Vertical);
+            
+        }
     }
 
     void MessageRevive(Message message)
@@ -229,9 +280,36 @@ public class GameState : MonoBehaviour
 
     void MessageReset(Message message)
     {
-        ResetGame();
+
+            ResetGame();
+            
+    }
+    void MessageWin(Message message)
+    {
+        Win();        
+    }
+    void MessageLose(Message message)
+    {
+        Lose();
+
     }
 
+    void Win()
+    {
+        inWin = true;
+        canvasWin.SetActive(true);
+        canvas.SetActive(false);
+        canvasBarra.SetActive(false);
+    }
+
+    void Lose()
+    {
+        if (inLose) return;
+        inLose = true;
+        canvasEnd.SetActive(true);
+        canvas.SetActive(false);
+        canvasBarra.SetActive(false);
+    }
     void GetPlayers()
     {
         PlayerController[] ts = FindObjectsOfType<PlayerController>();
@@ -327,19 +405,21 @@ public class GameState : MonoBehaviour
 
     public void ResetGame()
     {
+        if (isResetting) return; // Evitar múltiples llamadas
+        isResetting = true;
         KillGame();
+
+        foreach (GameObject enemy in EnemyManager.instance.enemies)
+        {
+            Destroy(enemy); 
+        }
+        EnemyManager.instance.enemies.Clear();
+        
+        EnemyManager.instance.id = 0;
+        EnemyManager.instance.removedEnemiesCount = 0;
+
         //Change the scene to loading scene     The same as this
         SceneManager.LoadScene("MainScene");
     }
-
-    public void EndGame(string text)
-    {
-        SendPauseGame(!isGamePaused);
-
-        panelEndGame.SetActive(true);
-
-        textEndGame.text = text;
-    }
-
 
 }

@@ -10,6 +10,7 @@ namespace _MessageType
         _NONE,
         POSITION,
         ENEMYPOSITION,
+        ANIMATIONSTATE,
         ACKNOWLEDGEMENTS,
         SHOOT,
         HITENEMY,
@@ -20,6 +21,8 @@ namespace _MessageType
         PAUSE,
         UNPAUSE,
         RESET,
+        WIN,
+        LOSE,
         SETTINGS,
         PING,
         PONG,
@@ -55,6 +58,22 @@ namespace _MessageType
 
         public Vector3 pos;
         public float rot;
+    }
+
+    public class AnimationStateMessage : Message
+    {
+        public int PlayerId { get; private set; }
+        public float Horizontal { get; private set; }
+        public float Vertical { get; private set; }
+       
+
+        public AnimationStateMessage(int playerId, float horizontal, float vertical): base(MessageType.ANIMATIONSTATE)
+        {
+            PlayerId = playerId;
+            Horizontal = horizontal;
+            Vertical = vertical;
+            
+        }
     }
 
     public class KillEnemyMessage : Message
@@ -171,6 +190,11 @@ namespace _MessageType
                 case MessageType.ACKNOWLEDGEMENTS:
                     {   
                         m = JsonUtility.FromJson<Acknowledgements>(json);
+                        break;
+                    }
+                case MessageType.ANIMATIONSTATE:
+                    {
+                        m = JsonUtility.FromJson<AnimationStateMessage>(json);
                         break;
                     }
                 case MessageType.POSITION:
