@@ -7,6 +7,8 @@ public class bulletController : MonoBehaviour
 {
     [SerializeField] private GameObject bulletDecal;
     [SerializeField] private GameObject hitVFXPrefab;
+    [SerializeField] private GameObject bloodPrefab; // Prefab de sangre agregado
+
 
     private float speed = 50f;
     private float timeToDestroy = 3f;
@@ -77,17 +79,26 @@ public class bulletController : MonoBehaviour
             // Usamos la posición del impacto como el punto de contacto
             Vector3 contactPoint = hit.point;
 
+
+            if (original && other.CompareTag("Enemy"))
+            {
+                other.GetComponent<EnemiesIA>().TakeDMG();
+
+                if (bloodPrefab != null)
+                {
+                    GameObject bloodEffect = GameObject.Instantiate(bloodPrefab, contactPoint, Quaternion.LookRotation(hit.normal));
+                    Destroy(bloodEffect, 2f);
+                    return; // Ajusta el tiempo de vida del efecto si es necesario
+                }
+            }
+
             // Instanciamos el VFX en el punto de impacto
             GameObject hitVFX = GameObject.Instantiate(hitVFXPrefab, contactPoint, Quaternion.LookRotation(hit.normal));
 
-            // Destruimos el VFX después de 1 segundo
             Destroy(hitVFX, 1f);
         }
 
-        if(original && other.CompareTag("Enemy"))
-        {
-            other.GetComponent<EnemiesIA>().TakeDMG();
-        }
+       
         Destroy(gameObject);
 
 

@@ -103,6 +103,9 @@ public class PlayerController : MonoBehaviour
     // animations
     public Animator animator;
 
+    [SerializeField] private AudioClip shootSound; // Clip de sonido del disparo
+    private AudioSource audioSource;             // Componente de audio
+
 
     private void Awake()
     {
@@ -110,6 +113,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        audioSource = GetComponent<AudioSource>(); // Inicializar el AudioSource
+
         moveAction = playerInput.actions["Move"];
         lookAction = playerInput.actions["Look"];
         shootAction = playerInput.actions["Shoot"];
@@ -208,6 +213,12 @@ public class PlayerController : MonoBehaviour
     {
         if (movementBlocked || gameState.isGamePaused) return;
 
+
+        // Reproducir el sonido del disparo
+        if (audioSource != null && shootSound != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
         // Instanciar el efecto visual del disparo con corrección de rotación
         if (muzzleFlashPrefab != null)
         {
