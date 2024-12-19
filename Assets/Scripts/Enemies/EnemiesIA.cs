@@ -137,7 +137,8 @@ public class EnemiesIA : MonoBehaviour
     public void Die()
     {
         isDead = true;
-        animator.SetBool("isDead", true); // Activar animaci de muerte
+        currentState = State.Dead;
+        animator.SetBool("isDead", true ); // Activar animaci de muerte
         agent.isStopped = true;
         // Opcional: Destruir el objeto despu駸 de un tiempo
         Destroy(gameObject, 3f);

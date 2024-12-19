@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
         input.x = Mathf.Lerp(input.x, rawInput.x, Time.deltaTime * smoothSpeed);
         input.y = Mathf.Lerp(input.y, rawInput.y, Time.deltaTime * smoothSpeed);
         Vector3 move = new Vector3(input.x, 0, input.y);
-        Debug.Log("Move" + move);
+        
         // Normalizar para mantener la coherencia en los valores de Blend Tree
         move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
         move.y = 0;
