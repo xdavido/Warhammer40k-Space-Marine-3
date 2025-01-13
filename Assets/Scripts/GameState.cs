@@ -48,6 +48,7 @@ public class GameState : MonoBehaviour
     //Interolation 
     Queue<Vector3> positionBuffer = new Queue<Vector3>();
     Queue<float> timestampBuffer = new Queue<float>();
+    private Queue<Quaternion> rotationBuffer = new Queue<Quaternion>();
     const int BufferSize = 5;
     float lastReceivedTimestamp = 0.0f;
 
@@ -140,6 +141,9 @@ public class GameState : MonoBehaviour
             Vector3 startPos = positionBuffer.Peek();
             Vector3 endPos = positionBuffer.ToArray()[1];
 
+            Quaternion startRotation = rotationBuffer.Peek();
+            Quaternion endRotation = rotationBuffer.ToArray()[1];
+
             // Obtener los tiempos correspondientes
             float startTime = timestampBuffer.Peek();
             float endTime = timestampBuffer.ToArray()[1];
@@ -157,6 +161,7 @@ public class GameState : MonoBehaviour
 
             // Aplicar interpolación
             otherPlayer.position = Vector3.Lerp(startPos, endPos, t);
+            otherPlayer.rotation = Quaternion.Slerp(startRotation, endRotation, t);
         }
 
         //Hold R
@@ -201,11 +206,13 @@ public class GameState : MonoBehaviour
         if (positionBuffer.Count >= BufferSize)
         {
             positionBuffer.Dequeue(); // Eliminar la posición más antigua
+            rotationBuffer.Dequeue();
             timestampBuffer.Dequeue();
         }
 
         positionBuffer.Enqueue(p.pos);
         timestampBuffer.Enqueue(Time.time);
+        rotationBuffer.Enqueue(Quaternion.Euler(0, p.rot, 0));
 
     }
 

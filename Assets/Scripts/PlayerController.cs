@@ -111,14 +111,6 @@ public class PlayerController : MonoBehaviour
     public bool isDead = false;
 
 
-
-    // ===========================================================
-    // Interpolation
-    // ===========================================================s
-    private Queue<Vector3> positionBuffer = new Queue<Vector3>();
-    private const int BufferSize = 5; 
-    private float interpolationFactor = 0.1f;
-
     private void Awake()
     {
         // animations
