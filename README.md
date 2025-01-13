@@ -27,7 +27,7 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Cooperative Shooter PvE 2vsAI
 - Protective Barrel
 
-## Exercise 5:![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
+## Exercise 5: ![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
 - Music & SFX
 - UDP Improvements:
   - Jitter Latency
