@@ -10,22 +10,30 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - David Ruiz Luengo
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
+
+## DONE (Exercise 3): ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.0.1-blue)
+- UDP Conection 
+- Shooter PvP 1vs1
+- Player Capsule Prefab (Shoot, Aim, Dash, Jump) - 3HP
+- Environment
+- UI
+
 ## DONE (Exercise 4): ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
 - Environment
 - VFX (Heals,Projectiles,Dust,Portals,Blood Damage)
-- Orc AI Prefab(Run,Shoot,Die)
-- Space Marine Player Prefab (Shoot,Dash,Revive)
+- Orc AI Prefab(Run,Shoot,Die) - 3HP
+- Space Marine Player Prefab (Shoot,Aim,Dash,Revive) - 5HP
 - UI
 - Coperative Shooter PvE 2vsAI
-- Player Prefab (Dash,Damage,Shoot)
 - Protective Barrel
 
-## WIP (Exercise 4.5): ![Final Demo Version](https://img.shields.io/badge/Final_Version-0.5.5-blue)
+## (Exercise 5):![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
 - Music & SFX
-- Jitter & Lattency
-- 
-## (Exercise 5): ![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
-- FINAL GAME
+- UDP Improvements:
+  - Jitter Lattency
+  - Interpolation
+- Final UI
+  
   
 ## Third Person Resources
 ### Unity Assets:
