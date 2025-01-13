@@ -27,7 +27,7 @@ public class GameState : MonoBehaviour
 
     
 
-    //DataTank dataTank;
+    
     [SerializeField] GameObject canvasWin;
     [SerializeField] GameObject canvasEnd;
 
@@ -35,13 +35,15 @@ public class GameState : MonoBehaviour
     [SerializeField] GameObject canvasBarra;
 
 
-    [SerializeField] TextMeshProUGUI pingText;
-    [SerializeField] TextMeshProUGUI healthText;
-  
+
+
+    [SerializeField] private int nexoHealth = 10; // Vida inicial del nexo
+    [SerializeField] private Slider nexoHealthBar; // Slider UI para la barra de vida
+
 
     bool setColorRestart = false;
-    bool inWin = false;
-    bool inLose = false;
+   public bool inWin = false;
+   public bool inLose = false;
     bool isResetting = false;
 
 
@@ -468,6 +470,21 @@ public class GameState : MonoBehaviour
             PingMessage ping = new PingMessage(Time.time);
             MessageManager.SendMessage(ping); // Enviar el mensaje al servidor
             yield return new WaitForSeconds(1.0f); // Enviar Ping cada segundo
+        }
+    }
+
+
+    public void ReduceNexoHealth()
+    {
+        nexoHealth--;
+        if (nexoHealthBar != null)
+        {
+          nexoHealthBar.value = nexoHealth;
+        }
+
+        if (nexoHealth <= 0)
+        {
+            Lose(); 
         }
     }
 

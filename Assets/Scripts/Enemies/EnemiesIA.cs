@@ -33,6 +33,9 @@ public class EnemiesIA : MonoBehaviour
 
     private int enemyID;
 
+    public AudioSource audioSource = null;
+    public AudioClip orcShootSFX;
+
 
     private void Start()
     {
@@ -40,6 +43,8 @@ public class EnemiesIA : MonoBehaviour
         nexo = GameObject.FindGameObjectWithTag("Nexo").transform;
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>(); // Inicializar el Animator
+
+       // audioSource = GetComponent<AudioSource>();
         currentState = State.Patrol;
 
        // StartCoroutine(SendMyState());
@@ -47,7 +52,15 @@ public class EnemiesIA : MonoBehaviour
 
     private void Update()
     {
-        if (isDead) return; // No hacer nada si est・muerto
+        GameState gameState = FindObjectOfType<GameState>();
+
+        if(gameState.inLose || gameState.inWin)
+        {
+            animator.SetBool("isShooting", false);
+            return;
+        }
+
+        if (isDead ) return; // No hacer nada si est・muerto
 
         switch (currentState)
         {
@@ -124,14 +137,17 @@ public class EnemiesIA : MonoBehaviour
     {
         agent.isStopped = true;
         animator.SetBool("isWalking", false);
-        animator.SetBool("isShooting", true); // Activar animacion de disparo
 
-        if (Time.time > lastAttackTime + attackCoolDown)
-        {
-            Shoot();
+        animator.SetBool("isShooting", true);
 
-            lastAttackTime = Time.time;
-        }
+        // Activar animacion de disparo
+
+        //if (Time.time > lastAttackTime + attackCoolDown)
+        //{
+        //    Shoot();
+
+        //    lastAttackTime = Time.time;
+        //}
         if (Vector3.Distance(target.position, transform.position) < attackNexoRange)
         {
             return;
@@ -150,10 +166,7 @@ public class EnemiesIA : MonoBehaviour
     {
         if (target == null) return;
 
-        // Forzar la reproducción de la animación de disparo desde el inicio
-
-        // Activar el booleano isShooting
-        animator.SetBool("isShooting", true);
+        audioSource.PlayOneShot(orcShootSFX);
 
         // Calcula la dirección hacia el objetivo para ambos barrels
         Vector3 directionL = (target.position - barrel_Left.position).normalized;

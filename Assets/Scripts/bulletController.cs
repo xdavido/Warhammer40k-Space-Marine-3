@@ -29,20 +29,16 @@ public class bulletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        Vector3 fixedTarget = new Vector3(target.x, transform.position.y, target.z);
         // Calcular la dirección hacia el target
-        Vector3 directionToTarget = (target - transform.position).normalized;
+        Vector3 directionToTarget = (fixedTarget - transform.position).normalized;
+        
 
         // Rotar la bala hacia el target
         transform.rotation = Quaternion.LookRotation(directionToTarget);
-        if (original)
-        {
 
-            transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        }
-        else
-        {
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
+        transform.position += transform.forward * speed * Time.deltaTime;
         if(!hit && Vector3.Distance(transform.position, target) < .01f)
         {
             Destroy(gameObject);
@@ -113,16 +109,13 @@ public class bulletController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (other.CompareTag("Nexo"))
+        if (other.CompareTag("Nexo") && isEnemy)
         {
-            GameObject targetObject = GameObject.Find("BarraAmarilla");
-
-            if (targetObject != null)
+            GameState gameState = FindObjectOfType<GameState>();
+            if (gameState != null)
             {
-                // Reducir el tamaño poco a poco solo en el eje X
-                StartCoroutine(ReduceSizeGradually(targetObject));
+                gameState.ReduceNexoHealth();
             }
-            // Destruir la bala inmediatamente después de la colisión con "Nexo"
             Destroy(gameObject);
         }
 
