@@ -6,12 +6,13 @@ Our project applies networking principles and real-time data transmission, imple
 **Lore**: _In a devastated sector on the edge of the Warp lies the Emperor's Sword, a sacred artifact whose light is the only barrier separating this world from the entry of Chaos. These ancient ruins, scarred by endless battles, have been discovered by savage orc hordes who are using vile energy portals to invade and claim the divine weapon.
 
 As a defender of the Imperium, your mission is clear: protect the Sword at all costs. With your skills and life on the line, you must face relentless waves of enemies, seal the portals, and ensure the Emperor's power does not fall into profane hands. The survival of this sector, and perhaps the entire galaxy, depends on your courage and determination._
+
+[![Ultima Release](https://img.shields.io/badge/Latest%20Release-8A2BE2)](https://github.com/xdavido/Warhammer40k-Space-Marine-3/releases/latest)
+
 ### Authors:
 - David Ruiz Luengo
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
-
-[![Última Release](https://img.shields.io/github/v/release/usuario/repositorio?label=Descargar%20Release)](https://github.com/xdavido/Warhammer40k-Space-Marine-3/releases/latest)
 
 ## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.5-blue)
 - UDP Connection (1 Server/2 Clients) 
