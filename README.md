@@ -12,26 +12,30 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Xiao Shan Costajussa
 
 ## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.0.1-blue)
-- UDP Connection 
+- UDP Connection (1 Server/2 Clients) 
 - Shooter PvP 1vs1
 - Player Capsule Prefab (Shoot, Aim, Dash, Jump) - 3HP
 - Environment
 - UI
 
 ## Exercise 4: ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
-- Environment
+- Data Serialization
+- World State Replication
+- Final Environment 
 - VFX (Heals,Projectiles,Dust,Portals,Blood Damage)
 - Orc AI Prefab(Run,Shoot,Die) - 3HP
 - Space Marine Player Prefab (Shoot,Aim,Dash,Revive) - 5HP
-- UI
+- UI Improvements
 - Cooperative Shooter PvE 2vsAI
 - Protective Barrel
 
 ## Exercise 5: ![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
-- Music & SFX
 - UDP Improvements:
   - Jitter Latency
   - Interpolation
+  - ACK
+- Music & SFX
+- Animations Improvements
 - Final UI
   
   
