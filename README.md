@@ -11,14 +11,14 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
 
-## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.0.1-blue)
+## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.5-blue)
 - UDP Connection (1 Server/2 Clients) 
 - Shooter PvP 1vs1
 - Player Capsule Prefab (Shoot, Aim, Dash, Jump) - 3HP
 - Environment
 - UI
 
-## Exercise 4: ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
+## Exercise 4: ![Demo Version](https://img.shields.io/badge/Demo_Version-0.8-red)
 - Data Serialization
 - World State Replication
 - Final Environment 
