@@ -11,6 +11,8 @@ As a defender of the Imperium, your mission is clear: protect the Sword at all c
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
 
+[![Última Release](https://img.shields.io/github/v/release/usuario/repositorio?label=Descargar%20Release)](https://github.com/xdavido/Warhammer40k-Space-Marine-3/releases/latest)
+
 ## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.5-blue)
 - UDP Connection (1 Server/2 Clients) 
 - Shooter PvP 1vs1
