@@ -113,6 +113,35 @@ public class bulletController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (other.CompareTag("Nexo"))
+        {
+            GameObject targetObject = GameObject.Find("BarraAmarilla");
+
+            if (targetObject != null)
+            {
+                // Reducir el tamaño poco a poco solo en el eje X
+                StartCoroutine(ReduceSizeGradually(targetObject));
+            }
+            // Destruir la bala inmediatamente después de la colisión con "Nexo"
+            Destroy(gameObject);
+        }
+
+    }
+
+    private IEnumerator ReduceSizeGradually(GameObject targetObject)
+    {
+        float reductionAmount = 0.005f;  // Ajusta la cantidad de reducción por frame en el eje X
+        float targetX = 0f;  // Tamaño final en X, puede ser 0 o cualquier valor que desees
+
+        while (targetObject.transform.localScale.x > targetX)
+        {
+            // Reducir gradualmente solo en el eje X por una cantidad fija
+            targetObject.transform.localScale -= new Vector3(reductionAmount, 0f, 0f);
+            yield return null;  // Esperamos el siguiente frame
+        }
+
+        // Asegurarnos de que el tamaño final en X se alcance completamente
+        targetObject.transform.localScale = new Vector3(targetX, targetObject.transform.localScale.y, targetObject.transform.localScale.z);
 
     }
 
