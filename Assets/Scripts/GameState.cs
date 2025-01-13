@@ -16,8 +16,6 @@ public class GameState : MonoBehaviour
     //Real ingame objects
     Transform otherPlayer;
     Transform myPlayer;
-    //Server -> Blue
-    //Client -> Red
 
     //State Game
     [HideInInspector] public bool isGamePaused;
@@ -25,25 +23,19 @@ public class GameState : MonoBehaviour
     float startResetHoldTime;
     float R_HOLDING_TIME = 3.0f;
 
-    
-
-    
     [SerializeField] GameObject canvasWin;
     [SerializeField] GameObject canvasEnd;
 
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject canvasBarra;
 
-
-
-
     [SerializeField] private int nexoHealth = 10; // Vida inicial del nexo
     [SerializeField] private Slider nexoHealthBar; // Slider UI para la barra de vida
 
 
     bool setColorRestart = false;
-   public bool inWin = false;
-   public bool inLose = false;
+    public bool inWin = false;
+    public bool inLose = false;
     bool isResetting = false;
 
 
@@ -63,8 +55,6 @@ public class GameState : MonoBehaviour
         isResetting = false;
         startResetHoldTime = 0;
 
-
-        //dataTank = FindAnyObjectByType<DataTank>();
 
         GetPlayers();
 
@@ -172,11 +162,6 @@ public class GameState : MonoBehaviour
         {
             MessageManager.SendMessage(MessageType.RESET);
             ResetGame();
-        }
-        if (setColorRestart)
-        {
-           // dataTank.SetSettingsTanks();
-            setColorRestart = false;
         }
 
     }
@@ -417,16 +402,7 @@ public class GameState : MonoBehaviour
     public void SendPauseGame(bool pause)
     {
         SetPause(pause);
-        //MessageManager.SendMessage(new Message(pause ? MessageType.PAUSE : MessageType.UNPAUSE));
 
-        //if (pause)
-        //{
-        //    FindObjectOfType<BulletManager>().StopBullets();
-        //}
-        //else
-        //{
-        //    FindObjectOfType<BulletManager>().ReplayBullets();
-        //}
     }
 
     void SetPause(bool pause)

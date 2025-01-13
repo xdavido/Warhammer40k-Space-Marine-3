@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     private int playerId;                                         // Player unique ID
     public bool movementBlocked = false;
 
-    [HideInInspector]public int health = 4; // Vida inicial del jugador
+    public int health = 10; // Vida inicial del jugador
     [SerializeField] private GameObject Damage1;
     [SerializeField] private GameObject Damage2;
     [SerializeField] private GameObject Damage3;
@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviour
 
     public void Revive()
     {
-        health = 4;
+        health = 10;
         if(totemref!= null)
         {
             Destroy(totemref);
@@ -404,10 +404,7 @@ public class PlayerController : MonoBehaviour
 
             switch (health)
             {
-                case 4:
-                    Debug.Log("Player has full health. No Canvas active.");
-                    break;
-                case 3:
+                case 19:
                     if (Damage1 != null) Damage1.SetActive(true);
                     Debug.Log("Player has been hit. Damage1 Canvas active.");
                     break;
@@ -420,7 +417,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Player is critically injured. Damage3 Canvas active.");
                     break;
                 case 0:
-                    // Notificar al GameState sobre la muerte del jugador
+                    
                     MessageManager.SendMessage(new KillMessage(playerId));
                    
                     Dead(); 

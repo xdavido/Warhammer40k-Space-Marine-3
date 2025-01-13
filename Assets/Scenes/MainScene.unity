@@ -8705,6 +8705,10 @@ PrefabInstance:
       value: 0.000007018337
       objectReference: {fileID: 0}
     - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: isDead
       value: 0
       objectReference: {fileID: 0}
@@ -8724,6 +8728,10 @@ PrefabInstance:
       propertyPath: impulseSource
       value: 
       objectReference: {fileID: 725507084}
+    - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
+      propertyPath: movementBlocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1995064932930993680, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: deadthTotemPrefab
       value: 
