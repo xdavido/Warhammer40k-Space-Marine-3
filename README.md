@@ -11,14 +11,14 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - Rafael Esquius Pérez
 - Xiao Shan Costajussa
 
-## DONE (Exercise 3): ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.0.1-blue)
+## Exercise 3: ![Vertical Version](https://img.shields.io/badge/Vertical_Version-0.0.1-blue)
 - UDP Conection 
 - Shooter PvP 1vs1
 - Player Capsule Prefab (Shoot, Aim, Dash, Jump) - 3HP
 - Environment
 - UI
 
-## DONE (Exercise 4): ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
+## Exercise 4: ![Demo Version](https://img.shields.io/badge/Demo_Version-0.5.0-red)
 - Environment
 - VFX (Heals,Projectiles,Dust,Portals,Blood Damage)
 - Orc AI Prefab(Run,Shoot,Die) - 3HP
@@ -27,7 +27,7 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - Coperative Shooter PvE 2vsAI
 - Protective Barrel
 
-## (Exercise 5):![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
+## Exercise 5:![Final Version](https://img.shields.io/badge/Final_Version-1.0-green)
 - Music & SFX
 - UDP Improvements:
   - Jitter Lattency
@@ -36,7 +36,7 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
   
   
 ## Third Person Resources
-### Unity Assets:
+#### Unity Assets:
 - Old Ruins 
 - Rocks 
 - Guardian 
@@ -44,7 +44,7 @@ _As a defender of the Imperium, your mission is clear: protect the Sword at all 
 - Portals VFX
 - Blood VFX
  
-### Characters:
+#### Characters:
 - Spacemarine by Sanayork
 - Emperor's Sword
 - Orc by Gabor Kis-Juhasz
