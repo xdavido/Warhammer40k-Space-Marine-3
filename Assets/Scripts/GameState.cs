@@ -178,6 +178,7 @@ public class GameState : MonoBehaviour
            // dataTank.SetSettingsTanks();
             setColorRestart = false;
         }
+
     }
 
     void HandlePong(Message message)

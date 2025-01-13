@@ -32,7 +32,7 @@ public class bulletController : MonoBehaviour
 
         Vector3 fixedTarget = new Vector3(target.x, transform.position.y, target.z);
         // Calcular la dirección hacia el target
-        Vector3 directionToTarget = (fixedTarget - transform.position).normalized;
+        Vector3 directionToTarget = (fixedTarget - transform.position).normalized;  
         
 
         // Rotar la bala hacia el target
@@ -43,6 +43,7 @@ public class bulletController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
 
