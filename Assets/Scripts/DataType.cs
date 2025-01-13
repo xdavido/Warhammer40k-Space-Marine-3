@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -54,10 +55,12 @@ namespace _MessageType
         {
             this.pos = pos;
             this.rot = rot;
+            this.timestamp = Time.time;
         }
 
         public Vector3 pos;
         public float rot;
+        public float timestamp;
     }
 
     public class AnimationStateMessage : Message
@@ -240,6 +243,11 @@ namespace _MessageType
             }
 
             return m;
+        }
+
+        internal static T FromBytes<T>(byte[] data)
+        {
+            throw new NotImplementedException();
         }
     }
 

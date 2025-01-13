@@ -101,9 +101,10 @@ public class PlayerController : MonoBehaviour
     private Color originalColor;
     private GameObject totemref = null;
 
+
     // animations
     public Animator animator;
-
+    [Header("SFX")]
     [SerializeField] private AudioClip shootSound; // Clip de sonido del disparo
     private AudioSource audioSource;             // Componente de audio
 
@@ -111,6 +112,12 @@ public class PlayerController : MonoBehaviour
 
 
 
+    // ===========================================================
+    // Interpolation
+    // ===========================================================s
+    private Queue<Vector3> positionBuffer = new Queue<Vector3>();
+    private const int BufferSize = 5; 
+    private float interpolationFactor = 0.1f;
 
     private void Awake()
     {

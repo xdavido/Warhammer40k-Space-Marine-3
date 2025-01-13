@@ -43,6 +43,15 @@ public class GameState : MonoBehaviour
     bool inWin = false;
     bool inLose = false;
     bool isResetting = false;
+
+
+    //Interolation 
+    Queue<Vector3> positionBuffer = new Queue<Vector3>();
+    Queue<float> timestampBuffer = new Queue<float>();
+    const int BufferSize = 5;
+    float lastReceivedTimestamp = 0.0f;
+
+
     void Start()
     {
         isGamePaused = false;
@@ -72,8 +81,10 @@ public class GameState : MonoBehaviour
         MessageManager.messageDistribute[MessageType.RESET] += MessageReset;
         MessageManager.messageDistribute[MessageType.WIN] += MessageWin;
         MessageManager.messageDistribute[MessageType.LOSE] += MessageLose;
+        MessageManager.messageDistribute[MessageType.PONG] += HandlePong;
 
         StartCoroutine(SendMyState());
+        StartCoroutine(PingRoutine());
 
         setColorRestart = true;
     }
@@ -123,6 +134,30 @@ public class GameState : MonoBehaviour
             SendPauseGame(!isGamePaused);
         }
 
+        if (positionBuffer.Count > 1)
+        {
+            // Obtener las posiciones inicial y final del buffer
+            Vector3 startPos = positionBuffer.Peek();
+            Vector3 endPos = positionBuffer.ToArray()[1];
+
+            // Obtener los tiempos correspondientes
+            float startTime = timestampBuffer.Peek();
+            float endTime = timestampBuffer.ToArray()[1];
+
+            // Calcular el factor de interpolación
+            float t = 0;
+            if (Mathf.Abs(endTime - startTime) > Mathf.Epsilon)
+            {
+                t = Mathf.Clamp((Time.time - startTime) / (endTime - startTime), 0, 1);
+            }
+            else
+            {
+                Debug.LogWarning("Timestamps are too close or invalid. Defaulting t to 0.");
+            }
+
+            // Aplicar interpolación
+            otherPlayer.position = Vector3.Lerp(startPos, endPos, t);
+        }
 
         //Hold R
         if (Input.GetKeyDown(KeyCode.R)) startResetHoldTime = Time.time;
@@ -140,34 +175,38 @@ public class GameState : MonoBehaviour
 
     void HandlePong(Message message)
     {
-        //// Buscar el tiempo en que se envió el Ping correspondiente
-        //PingMessage ping = message as PingMessage;
+        Message pong = message as Message;
 
-        //float sentTime = MessageManager.Find(m => m.id == message.id).time;
-        //float rtt = Time.time - sentTime; // Tiempo total de ida y vuelta
-        //float lag = rtt / 2; // Dividir por 2 para obtener el lag estimado
+        if (pong != null)
+        {
+            // RTT = Tiempo actual - Timestamp del Ping enviado
+            float rtt = Time.time - pong.time;
 
-        //if (ping != null)
-        //{
-        //    float sentTime = ping.time;
-        //    float rtt = Time.time - sentTime; // Tiempo de ida y vuelta
-        //    float lag = rtt / 2; // Dividir por 2 para estimar el lag
+            // Latencia = RTT / 2
+            float latency = rtt / 2;
 
-        //    pingText.text = "Ip: + ";
-        //    Debug.Log($"RTT: {rtt * 1000} ms, Lag: {lag * 1000} ms");
-        //}
-        //else
-        //{
-        //    Debug.LogWarning("No se encontró un mensaje Ping correspondiente.");
-        //}
+            Debug.Log($"RTT: {rtt * 1000} ms, Latencia: {latency * 1000} ms");
+        }
     }
 
     void MessagePosition(Message message)
     {
         Position p = message as Position;
-        otherPlayer.position = p.pos;
-        otherPlayer.rotation = Quaternion.Euler(0, p.rot,0);
-        
+
+        if (p.timestamp < lastReceivedTimestamp)
+            return;
+
+        lastReceivedTimestamp = p.timestamp;
+        // Agregar posición al buffer
+        if (positionBuffer.Count >= BufferSize)
+        {
+            positionBuffer.Dequeue(); // Eliminar la posición más antigua
+            timestampBuffer.Dequeue();
+        }
+
+        positionBuffer.Enqueue(p.pos);
+        timestampBuffer.Enqueue(Time.time);
+
     }
 
     void MessageAnimation(Message message)
@@ -388,13 +427,10 @@ public class GameState : MonoBehaviour
 
     void KillGame()
     {
-        //BulletScript[] bullets = FindObjectsOfType<BulletScript>();
-        //foreach (BulletScript b in bullets)
-        //{
-        //    Destroy(b.gameObject);
-        //}
+
 
         StopCoroutine(SendMyState());
+        StopCoroutine(PingRoutine());
 
     }
 
@@ -415,6 +451,17 @@ public class GameState : MonoBehaviour
 
         //Change the scene to loading scene     The same as this
         SceneManager.LoadScene("MainScene");
+    }
+
+
+    IEnumerator PingRoutine()
+    {
+        while (true)
+        {
+            PingMessage ping = new PingMessage(Time.time);
+            MessageManager.SendMessage(ping); // Enviar el mensaje al servidor
+            yield return new WaitForSeconds(1.0f); // Enviar Ping cada segundo
+        }
     }
 
 }

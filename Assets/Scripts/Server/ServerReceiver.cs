@@ -27,7 +27,7 @@ public class ServerReceiver : MonoBehaviour
     {
         while (true)
         {
-            byte[] data = new byte[1024];
+            byte[] data = new byte[8192];
             int size;
 
             try
@@ -60,4 +60,6 @@ public class ServerReceiver : MonoBehaviour
             Debug.Log("Distributing message from ( " + playerID + " ) to ( " + i + " )");
         }
     }
+
+
 }
