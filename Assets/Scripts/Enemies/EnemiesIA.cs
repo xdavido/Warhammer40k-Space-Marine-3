@@ -15,7 +15,11 @@ public class EnemiesIA : MonoBehaviour
     [SerializeField] float visionRange = 15f;
     [SerializeField] float attackCoolDown = 2f;
     [SerializeField] GameObject projectilePrefab;
-    [SerializeField] Transform barret;
+    [SerializeField] private GameObject muzzleFlashPrefab; // Prefab del efecto visual
+
+    [SerializeField] Transform barrel_Left;
+    [SerializeField] Transform barrel_Right;
+
     [SerializeField] int HP = 3;
 
     private Animator animator; // Referencia al Animator
@@ -120,11 +124,12 @@ public class EnemiesIA : MonoBehaviour
     {
         agent.isStopped = true;
         animator.SetBool("isWalking", false);
-        animator.SetBool("isShooting", true); // Activar animaci de disparo
+        animator.SetBool("isShooting", true); // Activar animacion de disparo
 
         if (Time.time > lastAttackTime + attackCoolDown)
         {
             Shoot();
+
             lastAttackTime = Time.time;
         }
         if (Vector3.Distance(target.position, transform.position) < attackNexoRange)
@@ -145,17 +150,44 @@ public class EnemiesIA : MonoBehaviour
     {
         if (target == null) return;
 
-        // Calcula la dirección hacia el objetivo
-        Vector3 direction = (target.position - barret.position).normalized;
+        // Forzar la reproducción de la animación de disparo desde el inicio
 
-        // Crea el proyectil y ajusta su rotación hacia el objetivo
-        GameObject bullet = Instantiate(projectilePrefab, barret.position, Quaternion.LookRotation(direction));
-        bulletController bulletControll = bullet.GetComponent<bulletController>();
-        bulletControll.target = target.position;
-        bulletControll.hit = true;
-        bulletControll.original = true;
-        bulletControll.isEnemy = true;
+        // Activar el booleano isShooting
+        animator.SetBool("isShooting", true);
+
+        // Calcula la dirección hacia el objetivo para ambos barrels
+        Vector3 directionL = (target.position - barrel_Left.position).normalized;
+        Vector3 directionR = (target.position - barrel_Right.position).normalized;
+
+        // Efecto de muzzle flash para el barrel izquierdo
+        if (muzzleFlashPrefab != null)
+        {
+            GameObject muzzleFlashL = Instantiate(muzzleFlashPrefab, barrel_Left.position, barrel_Left.rotation * Quaternion.Euler(0, 180, 0), barrel_Left);
+            Destroy(muzzleFlashL, 0.5f); // Duración del efecto
+
+            GameObject muzzleFlashR = Instantiate(muzzleFlashPrefab, barrel_Right.position, barrel_Right.rotation * Quaternion.Euler(0, 180, 0), barrel_Right);
+            Destroy(muzzleFlashR, 0.5f); // Duración del efecto
+        }
+
+        // Crear las balas desde ambos barrels
+        GameObject bulletL = Instantiate(projectilePrefab, barrel_Left.position, Quaternion.LookRotation(directionL));
+        GameObject bulletR = Instantiate(projectilePrefab, barrel_Right.position, Quaternion.LookRotation(directionR));
+
+        // Configurar propiedades de las balas
+        bulletController bulletControllerL = bulletL.GetComponent<bulletController>();
+        bulletControllerL.target = target.position;
+        bulletControllerL.hit = true;
+        bulletControllerL.original = true;
+        bulletControllerL.isEnemy = true;
+
+        bulletController bulletControllerR = bulletR.GetComponent<bulletController>();
+        bulletControllerR.target = target.position;
+        bulletControllerR.hit = true;
+        bulletControllerR.original = true;
+        bulletControllerR.isEnemy = true;
     }
+
+
 
     public void Die()
     {

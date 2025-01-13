@@ -2146,6 +2146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies: []
   id: 0
+  removedEnemiesCount: 0
 --- !u!4 &589400276
 Transform:
   m_ObjectHideFlags: 0
@@ -5028,10 +5029,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ENEMY
       objectReference: {fileID: 0}
-    - target: {fileID: 5939978995926336921, guid: 2e366d54d210192469eec45282193d59, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7532861665724613354, guid: 2e366d54d210192469eec45282193d59, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52.88
@@ -7859,19 +7856,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2949297552084099208, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.848504
+      value: 1.3910103
       objectReference: {fileID: 0}
     - target: {fileID: 2949297552084099208, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.875469
+      value: -4.844987
       objectReference: {fileID: 0}
     - target: {fileID: 2949297552084099208, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00004975271
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2949297552084099208, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.0000013071061
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5099157473437020263, guid: 628f61b7c620816438ff55ddb13e671a, type: 3}
       propertyPath: Damage1
@@ -8316,19 +8313,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8467398658410393343, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.3910103
+      value: 7.630528
       objectReference: {fileID: 0}
     - target: {fileID: 8467398658410393343, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.844986
+      value: -4.8151245
       objectReference: {fileID: 0}
     - target: {fileID: 8467398658410393343, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.00004975271
       objectReference: {fileID: 0}
     - target: {fileID: 8467398658410393343, guid: 41b1350ff05de6747b8bc359a9c9fce7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.0000013071061
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
